@@ -7,10 +7,17 @@ body {
   min-height: 100vh;
   @extend %font-primary;
   @include font($font5, #{$font5}, 300);
-  background: center/cover, rgba(32, 36, 41, 0.5);
-  background-blend-mode: multiply;
-  transition: background-image 1s ease-in-out;
+  background: $color-dark;
   color: $color-light;
+}
+
+.logo {
+  background: $color-light;
+  border-radius: 50%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .main {
@@ -21,7 +28,7 @@ body {
   align-items: center;
   width: 100%;
   min-height: 260px;  
-  padding: 20px;
+  padding: 20px;  
 }
 
 .widgets {

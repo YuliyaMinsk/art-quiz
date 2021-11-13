@@ -1,5 +1,5 @@
 import './sass/style.scss';
-import image from './assets/images/lazy.png';
+import image from './assets/images/art-quiz-logo.svg';
 
 const createImage = (src) => new Promise((res, rej) => {
   const img = new Image();
@@ -9,11 +9,13 @@ const createImage = (src) => new Promise((res, rej) => {
 });
 
 async function render() {
+  const main = document.querySelector('.main');
   const subHeader = document.createElement('h2');
   subHeader.innerHTML = 'This elements was created by js';
-  const myImage = await createImage(image);
-  document.body.appendChild(subHeader);
-  document.body.appendChild(myImage);
+  const logo = await createImage(image);
+  logo.classList.add('logo');
+  main.appendChild(logo);
+  main.appendChild(subHeader);
 }
 
 render();
