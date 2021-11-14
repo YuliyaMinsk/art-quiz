@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "description": "My new js application",
+  "description": "Application-quiz on the knowledge of painting masterpieces and their authors",
   "private": true,
   "name": "art-quiz",
   "scripts": {

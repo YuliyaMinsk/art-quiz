@@ -5,7 +5,7 @@ type Settings = {
   timer: number
 }
 
-let settings: Settings = { // это типа значения по умолчанию??? Надо будет на практике посмотреть
+let settings: Settings = { // значения по умолчанию??? 
   sounds: 'off',
   volume: 0,
   gameForTime: 'off',
