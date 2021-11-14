@@ -1,11 +1,11 @@
 {
   "version": "0.1.0",
-  "description": "Application-quiz on the knowledge of painting masterpieces and their authors",
+  "description": "My new js application",
   "private": true,
   "name": "art-quiz",
   "scripts": {
-    "start": "rss-scripts start",
-    "build": "rss-scripts build"
+    "start": "rss-scripts start -ts",
+    "build": "rss-scripts build -ts"
   },
   "devDependencies": {
     "rss-scripts": "^0.2.4"
