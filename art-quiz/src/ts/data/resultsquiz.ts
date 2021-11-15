@@ -1,5 +1,7 @@
-export let resultArtistQuiz: boolean[] = [];
+type resultQuiz = boolean[];
 
-export let resultPaintingsQuiz: boolean[] = [];
+export const resultArtistQuiz: resultQuiz = [];
+
+export const resultPaintingsQuiz: resultQuiz = [];
 
 //resultPaintingsQuiz.fill.call({ length: 240 }, false);

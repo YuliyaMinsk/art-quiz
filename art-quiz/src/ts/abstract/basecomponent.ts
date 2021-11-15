@@ -3,6 +3,6 @@ export class BaseComponent {
 
   constructor(tagName: keyof HTMLElementTagNameMap = 'div', classes: string[] = []) {
     this.component = document.createElement(tagName);
-    this.component.classList.add(...classes);
+    if (classes) this.component.classList.add(...classes);
   }
 }

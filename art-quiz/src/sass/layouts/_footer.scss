@@ -1,0 +1,13 @@
+.footer {
+  min-height: 1rem;
+}
+
+.footer-container {
+  justify-content: space-around;
+}
+
+
+@media (min-width: 768px) {
+  .footer-container {
+  }
+}

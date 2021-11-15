@@ -1,23 +1,18 @@
-import { Header, Main, Footer } from './components/pages';
-import { WelcomeButton, NavigateButton, QuizButton } from './components/buttons';
+import { Header } from './components/elements/header';
+import { Main } from './components/elements/main';
+import { Footer } from './components/elements/footer';
+import { WelcomeButton } from './components/buttons/welcomebutton';
+import { NavigateButton } from './components/buttons/navigatebutton';
+import { QuizButton } from './components/buttons/quizbutton';
+import { WelcomePage } from './components/pages/welcomepage';
 
 export class Controller {
-  private readonly header: Header;
-  private readonly main: Main;
-  private readonly footer: Footer;
+  private readonly welcomePage: WelcomePage;
 
   constructor(private readonly rootElement: HTMLElement) {
-    this.header = new Header();
-    this.rootElement.appendChild(this.header.component);
-
-    this.main = new Main();
-    this.rootElement.appendChild(this.main.component);
-
-    this.footer = new Footer();
-    this.rootElement.appendChild(this.footer.component);
+    this.welcomePage = new WelcomePage(rootElement);
+    console.log('controller');
   }
-
-//const welcomePage = new Page('div', ['root']);
 
 // async function render() {
 //   const subHeader = document.createElement('h2');

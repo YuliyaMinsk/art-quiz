@@ -1,15 +1,23 @@
-type Settings = {
-  sounds: 'off' | 'on',
-  volume: number,
-  gameForTime: 'off' | 'on',
-  timer: number
+interface Settings {
+  sounds: 'off' | 'on';
+  volume: number;
+  gameForTime: 'off' | 'on';
+  timer: number;
 }
 
-let settings: Settings = { // значения по умолчанию??? 
-  sounds: 'off',
-  volume: 0,
-  gameForTime: 'off',
-  timer: 0
+export class SettingsQuiz implements Settings { 
+  sounds: 'off' | 'on';
+  volume: number;
+  gameForTime: 'off' | 'on';
+  timer: number;
+
+  constructor() {
+    this.sounds = 'off';
+    this.volume = 0;
+    this.gameForTime = 'off';
+    this.timer = 0; 
+  }
+  
 }
 
-export default settings;
+export default SettingsQuiz;
