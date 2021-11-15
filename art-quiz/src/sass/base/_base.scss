@@ -11,35 +11,6 @@ body {
   color: $color-light;
 }
 
-.logo {
-  background: $color-light;
-  border-radius: 50%;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 260px;  
-  padding: 20px;  
-}
-
-.widgets {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  min-width: 80vw;
-  margin-bottom: 20px;
-  gap: 20px;
-}
-
 h1 {
   @include font($font1, #{$font1});
 }

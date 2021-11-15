@@ -1,0 +1,10 @@
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 15rem);  
+  padding: 20px;  
+}

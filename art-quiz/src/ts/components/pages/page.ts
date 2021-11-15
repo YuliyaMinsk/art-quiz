@@ -3,9 +3,9 @@ import { Main } from '../elements/main';
 import { Footer } from '../elements/footer';
 
 export class Page {  
-  private readonly header: Header;
-  private readonly main: Main;
-  private readonly footer: Footer;
+  readonly header: Header;
+  readonly main: Main;
+  readonly footer: Footer;
 
   constructor(readonly rootElement: HTMLElement) {
     this.header = new Header();
