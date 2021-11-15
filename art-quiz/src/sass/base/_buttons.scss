@@ -5,23 +5,38 @@
   @extend %transition;
   cursor: pointer; 
   
-  &_transparent {
-      background-color: transparent;
-      border-color: $color-light;
-      color: $color-light;
-      
-      border-style: solid;
-      border-width: 2px;
-      border-radius: 22px;
-      padding: 10px 40px;
-      margin-bottom: 1rem;
-      min-width: 60%;
+  &-transparent {
+    background-color: transparent;
+    border-color: $color-light;
+    color: $color-light;
+    
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 22px;
+    padding: 10px 40px;
+    margin-bottom: 1rem;
+    min-width: 80%;
 
+    transition: all 0.2s linear;
+    &:hover {
+      border-color: $color-primary;
+      background-color: $color-primary;
+      color: $color-light;
       transition: all 0.2s linear;
-      &:hover {
-        border-color: $color-primary;
-        color: $color-primary;
-        transition: all 0.2s linear;
-      }
+    }
+  }
+
+  &-navigate {
+    background-color: transparent;
+    color: $color-light;
   }
 }
+
+@media (min-width: $mq3) {
+  .button {
+    &-transparent {
+      min-width: 40%;
+    }
+  }
+}
+

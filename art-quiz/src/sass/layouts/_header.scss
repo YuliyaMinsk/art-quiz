@@ -6,9 +6,18 @@
 }
 
 .logo {
+  max-width: 80vw;
   border-radius: 50%;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.logo-navigate {
+  max-width: 10vw;
+}
+
+.icon-back {
+  height: 1rem;
 }
