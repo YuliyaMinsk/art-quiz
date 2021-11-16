@@ -1,13 +1,14 @@
 .footer {
-  height: 3rem;
+  height: 5rem;
 }
 
 .footer-container {
+  flex-direction: column;
+  align-items: center;
   justify-content: space-around;
-}
 
-
-@media (min-width: 768px) {
-  .footer-container {
+  @media (min-width: $mq3) {
+    flex-direction: row;
   }
 }
+

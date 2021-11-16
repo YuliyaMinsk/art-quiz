@@ -24,6 +24,10 @@
       color: $color-light;
       transition: all 0.2s linear;
     }
+    
+    @media (min-width: $mq3) {
+      min-width: 40%;
+    }
   }
 
   &-navigate {
@@ -32,11 +36,4 @@
   }
 }
 
-@media (min-width: $mq3) {
-  .button {
-    &-transparent {
-      min-width: 40%;
-    }
-  }
-}
 

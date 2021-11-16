@@ -11,6 +11,28 @@ export class Page {
     this.header = new Header();
     this.main = new Main();
     this.footer = new Footer();
-    this.rootElement.append(this.header.component, this.main.component, this.footer.component);
+
+    if (!this.rootElement.firstChild) {
+      this.rootElement.append(this.header.component, this.main.component, this.footer.component);
+    }
   }
+
+  clearPage() {
+    if (this.header) {
+      while (this.header.component.firstChild) {
+        this.header.component.removeChild(this.header.component.firstChild);
+      }
+    }
+    if (this.main) {
+      while (this.main.component.firstChild) {
+        this.main.component.removeChild(this.main.component.firstChild);
+      }
+    }
+    if (this.footer) {
+      while (this.footer.component.firstChild) {
+        this.footer.component.removeChild(this.footer.component.firstChild);
+      }
+    }
+  }
+
 }

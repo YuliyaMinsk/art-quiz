@@ -11,14 +11,18 @@ export class WelcomePage extends Page {
   constructor(readonly rootElement: HTMLElement) {
     super(rootElement);
 
-    this.logo = new Image(['logo'], 'images/art-quiz-logo.svg', 'логотип игры');
-    this.header.component.appendChild(this.logo.component);
-
+    this.logo = new Image(['logo']);
     this.artistsButton = new WelcomeButton('Художники');
     this.picturesButton = new WelcomeButton('Картины');
     this.settingsButton = new WelcomeButton('Настройки');
+  }
+
+  showPage() {
+    Page.prototype.clearPage();
+    this.header.component.appendChild(this.logo.component);
     this.main.component.append(this.artistsButton.component, 
                               this.picturesButton.component, 
                               this.settingsButton.component);
   }
+
 }
