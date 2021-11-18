@@ -352,6 +352,6 @@ section, main, footer, header {
   display: block;
 }
   
-* {
+*, *:before, *:after {
   box-sizing: border-box;
 }

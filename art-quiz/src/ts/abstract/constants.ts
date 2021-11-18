@@ -10,6 +10,7 @@ export class Constants {
 
   static NAV_BUTTON_SAVE: string = 'Сохранить';
   static NAV_BUTTON_HOME: string = 'Главная';
+  static NAV_BUTTON_SETTINGS: string = 'Настройки';
   static NAV_BUTTON_CATEGORY: string = 'Категории';
   static NAV_BUTTON_SCORE: string = 'Результаты';
 }

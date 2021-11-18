@@ -1,21 +1,16 @@
-interface Settings {
-  sounds: 'off' | 'on';
-  volume: number;
-  gameForTime: 'off' | 'on';
-  timer: number;
-}
+type onoff = 'off' | 'on';
 
-export class SettingsQuiz implements Settings { 
-  sounds: 'off' | 'on';
+export class SettingsQuiz { 
+  sounds: onoff;
   volume: number;
-  gameForTime: 'off' | 'on';
+  gameForTime: onoff;
   timer: number;
 
   constructor() {
     this.sounds = 'off';
-    this.volume = 0;
+    this.volume = 25;
     this.gameForTime = 'off';
-    this.timer = 0; 
+    this.timer = 10; 
   }
   
 }

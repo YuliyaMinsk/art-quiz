@@ -1,27 +1,37 @@
 import { Page } from './page';
+import { NavigateButton } from '../buttons/navigatebutton';
 import { Image } from '../elements/image';
-// import { NavigateButton } from '../buttons/navigatebutton';
-import { Anchor } from '../elements/anchor';
+import { Range } from '../elements/range';
+import { Toggle } from '../elements/toggle';
+import { Constants } from '../../abstract/constants';
 
 export class SettingsPage extends Page {
   readonly logo: Image;
-  //readonly backMenu: Anchor;
-  //readonly closeMenu: Anchor;
+  readonly backMenu: NavigateButton;
+  // readonly closeMenu: NavigateButton;
+  readonly volume: Range;
+  readonly toggle: Toggle;
 
-  constructor(readonly rootElement: HTMLElement) {
-    super(rootElement);
+  constructor() {
+    super();
 
     this.logo = new Image(['logo', 'logo-navigate']);
-    //this.backMenu = new Anchor([], );
-    // this.backMenu = new NavigateButton('Настройки', ['icon-back']);
+    this.backMenu = new NavigateButton(Constants.NAV_BUTTON_SETTINGS, ['icon-back']);
     // this.closeMenu = new NavigateButton('', ['icon-close']);
 
+    this.volume = new Range(['range'], 0, 100, 'Громкость звука');
+    this.toggle = new Toggle(['toggle'], 'Игра на время', 'time-game');
   }
 
-  showPage() {
-    Page.prototype.clearPage();
-    this.header.component.append(this.logo.component); /*, 
-                                this.backMenu.component,
-                                this.closeMenu.component);*/
+  addComponents() {
+    this.removeComponents();    
+    this.header.component.append(
+      this.logo.component, 
+      this.backMenu.component
+    );
+    this.main.component.append(
+      this.volume.component,
+      this.toggle.component
+    );
   }
 }

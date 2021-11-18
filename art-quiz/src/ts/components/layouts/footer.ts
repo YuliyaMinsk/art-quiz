@@ -1,6 +1,6 @@
 import { BaseComponent } from "../../abstract/basecomponent";
 import { PageComponent } from "../../abstract/pagecomponent";
-import { Anchor } from "./anchor";
+import { Anchor } from "../elements/anchor";
 
 export class Footer extends PageComponent {
   readonly container: BaseComponent;

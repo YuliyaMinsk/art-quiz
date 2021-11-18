@@ -2,7 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 12rem;
+  
+  height: 6rem;
+  &-welcome {
+    height: 12rem;
+  }
 }
 
 .logo {
@@ -32,12 +36,12 @@
 .icon-back {
   background-image: url("../assets/icons/arrow-back.svg"); 
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: left;
+  padding-left: 34px;
 }
 
 .icon-close {
   background-image: url("../assets/icons/close.svg");
   background-repeat: no-repeat;
-  background-position: center;
- 
+  background-position: center; 
 }

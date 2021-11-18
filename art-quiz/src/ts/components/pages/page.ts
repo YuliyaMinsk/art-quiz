@@ -1,23 +1,32 @@
-import { Header } from '../elements/header';
-import { Main } from '../elements/main';
-import { Footer } from '../elements/footer';
+import { Header } from '../layouts/header';
+import { Main } from '../layouts/main';
+import { Footer } from '../layouts/footer';
 
 export class Page {  
   readonly header: Header;
   readonly main: Main;
   readonly footer: Footer;
 
-  constructor(readonly rootElement: HTMLElement) {
-    this.header = new Header();
-    this.main = new Main();
+  constructor(headerClasses: string[] = [], mainClasses: string[] = []) {
+    this.header = new Header(headerClasses);
+    this.main = new Main(mainClasses);
     this.footer = new Footer();
+  }
 
-    if (!this.rootElement.firstChild) {
-      this.rootElement.append(this.header.component, this.main.component, this.footer.component);
+  showPage(rootElement) {
+    if (rootElement.firstChild) this.clearPage(rootElement);
+    rootElement.append(this.header.component, this.main.component, this.footer.component);
+  }
+
+  clearPage(rootElement) {
+    if (rootElement) {
+      while (rootElement.firstChild) {
+        rootElement.removeChild(rootElement.firstChild);
+      }
     }
   }
 
-  clearPage() {
+  removeComponents() {
     if (this.header) {
       while (this.header.component.firstChild) {
         this.header.component.removeChild(this.header.component.firstChild);
@@ -28,11 +37,5 @@ export class Page {
         this.main.component.removeChild(this.main.component.firstChild);
       }
     }
-    if (this.footer) {
-      while (this.footer.component.firstChild) {
-        this.footer.component.removeChild(this.footer.component.firstChild);
-      }
-    }
   }
-
 }
