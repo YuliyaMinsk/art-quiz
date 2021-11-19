@@ -13,6 +13,7 @@ export class Toggle extends BaseComponent {
 
     const div = document.createElement('div');
     div.classList.add('switch-box');
+    div.classList.add('color');
 
     this.toggleElement = document.createElement('input');
     this.toggleElement.classList.add('switch-box-input');
@@ -20,17 +21,17 @@ export class Toggle extends BaseComponent {
     this.toggleElement.setAttribute('id', id);
 
     const labelInnerLeft = document.createElement('label');
-    labelInnerLeft.setAttribute('htmlFor', id);
+    labelInnerLeft.setAttribute('for', id);
     labelInnerLeft.classList.add('switch-box-label');
     labelInnerLeft.textContent = 'Off';
 
     const labelInnerRight = document.createElement('label');
-    labelInnerRight.setAttribute('htmlFor', id);
+    labelInnerRight.setAttribute('for', id);
     labelInnerRight.classList.add('switch-box-label');
     labelInnerRight.textContent = 'On';
 
     const labelInner = document.createElement('label');
-    labelInner.setAttribute('htmlFor', id);
+    labelInner.setAttribute('for', id);
     labelInner.classList.add('switch-box-slider');
     
     this.component.append(

@@ -1,0 +1,54 @@
+.range {
+  display: flex;
+  flex-direction: column;
+  @include font($font4, #{$font4}, 300);
+  margin-bottom: 30px;
+  width: 80%;
+
+  @media (min-width: $mq3) {
+    width: 40%;
+  }
+
+  input {
+    background: linear-gradient(to right, $color-primary 0%, $color-primary 25%, $color-light 25%, $color-light 100%);
+    height: 6px;
+    transition: background 450ms ease-in;
+    -webkit-appearance: none;
+    outline: none;
+  }
+  input::-webkit-slider-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    -webkit-appearance: none;
+    cursor: ew-resize;
+    background: $color-primary;
+    &:hover {
+      background: #fa9b7e;
+    }
+  }
+}
+
+.icons-volume {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.icon-volume-mute {
+  background-image: url("../assets/icons/volume-mute.svg"); 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 34px;
+  height: 34px;
+}
+
+.icon-volume-up {
+  background-image: url("../assets/icons/volume-up.svg"); 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 34px;
+  height: 34px;
+}

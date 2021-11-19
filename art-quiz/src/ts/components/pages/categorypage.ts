@@ -7,7 +7,7 @@ export class CategoryPage extends Page {
   readonly logo: Image;
   readonly backMenu: NavigateButton;
 
-  constructor() {
+  constructor(nameCategory: string) {
     super();
 
     this.logo = new Image(['logo', 'logo-navigate']);

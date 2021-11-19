@@ -7,20 +7,23 @@ import { Router } from './router';
 export class Controller {
   private readonly welcomePage: Page; 
   private readonly settingsPage: Page;
-  private readonly categoryPage: Page;
+  private readonly categoryArtistPage: Page;
+  private readonly categoryPicturePage: Page;
   readonly router: Router;
 
   constructor(private readonly rootElement: HTMLElement) {
     this.welcomePage = new WelcomePage();
     this.settingsPage = new SettingsPage();
-    this.categoryPage = new CategoryPage();
+    this.categoryArtistPage = new CategoryPage('Artists');
+    this.categoryPicturePage = new CategoryPage('Pictures');
     this.router = new Router();    
   }
   
   start() {
     this.router.addNewRoute('/', 'Home');
     this.router.addNewRoute('/#settings', 'Settings');
-    this.router.addNewRoute('/#category', 'Category');
+    this.router.addNewRoute('/#artists', 'CategoryArtist');
+    this.router.addNewRoute('/#pictures', 'CategoryPicture');
     this.router.addNewRoute('/#quiz', 'Quiz');
     this.router.addNewRoute('/#results', 'Results');
     this.initRouter();
@@ -49,11 +52,17 @@ export class Controller {
           this.initSettingsButtons(); 
           console.log('show Settings page'); 
           break;
-        case 'Category': 
-          this.categoryPage.showPage(this.rootElement); 
-          (<CategoryPage>this.categoryPage).addComponents(); 
-          this.initCategoryButtons();
-          console.log('show Category page'); 
+        case 'CategoryArtist': 
+          this.categoryArtistPage.showPage(this.rootElement); 
+          (<CategoryPage>this.categoryArtistPage).addComponents(); 
+          this.initCategoryArtistButtons();
+          console.log('show Category Artist page'); 
+          break;
+        case 'CategoryPicture': 
+          this.categoryPicturePage.showPage(this.rootElement); 
+          (<CategoryPage>this.categoryPicturePage).addComponents(); 
+          this.initCategoryPictureButtons();
+          console.log('show Category Picture page'); 
           break;
         // case 'Quiz': this.quizPage.showPage(this.rootElement); break;
         // case 'Results': this.resultsPage.showPage(this.rootElement); break;
@@ -63,34 +72,40 @@ export class Controller {
   }
 
   initWelcomeButtons() {
-    (<WelcomePage>this.welcomePage).artistsButton.component.addEventListener('click', () => {
-      console.log('click on Artist button');      
-      window.location.href = '/#category'
+    (<WelcomePage>this.welcomePage).artistsButton.component.addEventListener('click', () => {      
+      window.location.href = '/#artists'
     });
     (<WelcomePage>this.welcomePage).picturesButton.component.addEventListener('click', () => {
-      console.log('click on Picture button');
-      window.location.href = '/#category'
+      window.location.href = '/#pictures'
     });
     (<WelcomePage>this.welcomePage).settingsButton.component.addEventListener('click', () => {
-      console.log('click on Settings button');
       window.location.href = '/#settings'
     });
   }
 
   initSettingsButtons() {
-    (<SettingsPage>this.settingsPage).backMenu.component.addEventListener('click', () => {
-      console.log('click on backMenu button');      
+    (<SettingsPage>this.settingsPage).backMenu.component.addEventListener('click', () => {    
       window.location.href = '/'
     });
     (<SettingsPage>this.settingsPage).volume.rangeElement.addEventListener('input', () => {
-      console.log('change range');  
       (<SettingsPage>this.settingsPage).volume.changeRange();      
+    });
+    (<SettingsPage>this.settingsPage).counter.minusButton.addEventListener('click', () => {
+      (<SettingsPage>this.settingsPage).counter.inputField.stepDown()      
+    });
+    (<SettingsPage>this.settingsPage).counter.plusButton.addEventListener('click', () => {
+      (<SettingsPage>this.settingsPage).counter.inputField.stepUp()      
     });
   }
 
-  initCategoryButtons() {
-    (<CategoryPage>this.categoryPage).backMenu.component.addEventListener('click', () => {
-      console.log('click on backMenu button');      
+  initCategoryArtistButtons() {
+    (<CategoryPage>this.categoryArtistPage).backMenu.component.addEventListener('click', () => {
+      window.location.href = '/'
+    });
+  }
+
+  initCategoryPictureButtons() {
+    (<CategoryPage>this.categoryPicturePage).backMenu.component.addEventListener('click', () => {
       window.location.href = '/'
     });
   }
