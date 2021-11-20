@@ -1,4 +1,4 @@
-type onoff = 'off' | 'on';
+import { onoff } from '../abstract/types';
 
 export class SettingsQuiz { 
   sounds: onoff;
@@ -14,5 +14,3 @@ export class SettingsQuiz {
   }
   
 }
-
-export default SettingsQuiz;

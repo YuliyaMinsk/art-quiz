@@ -11,6 +11,11 @@
   &-welcome {
     height: calc(100vh - 17rem);  
   }
+  &-category {
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
 
 .text-description {

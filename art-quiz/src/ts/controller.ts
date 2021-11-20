@@ -4,6 +4,10 @@ import { WelcomePage } from './components/pages/welcomepage';
 import { CategoryPage } from './components/pages/categorypage';
 import { Router } from './router';
 
+import { Constants } from './abstract/constants';
+import { picturesType } from './abstract/types';
+import { picturesData } from './data/pictures';
+
 export class Controller {
   private readonly welcomePage: Page; 
   private readonly settingsPage: Page;
@@ -14,8 +18,8 @@ export class Controller {
   constructor(private readonly rootElement: HTMLElement) {
     this.welcomePage = new WelcomePage();
     this.settingsPage = new SettingsPage();
-    this.categoryArtistPage = new CategoryPage('Artists');
-    this.categoryPicturePage = new CategoryPage('Pictures');
+    this.categoryArtistPage = new CategoryPage('Artists', 1);
+    this.categoryPicturePage = new CategoryPage('Pictures', 121);
     this.router = new Router();    
   }
   
@@ -53,14 +57,17 @@ export class Controller {
           console.log('show Settings page'); 
           break;
         case 'CategoryArtist': 
+          const categoryArtistData = this.loadDataCategoryArtist();
           this.categoryArtistPage.showPage(this.rootElement); 
-          (<CategoryPage>this.categoryArtistPage).addComponents(); 
+          console.log('categoryArtistData: ', categoryArtistData);
+          (<CategoryPage>this.categoryArtistPage).addComponents(this.everyNth(categoryArtistData, 10)); 
           this.initCategoryArtistButtons();
           console.log('show Category Artist page'); 
           break;
         case 'CategoryPicture': 
+          const categoryPictureData = this.loadDataPictureArtist();
           this.categoryPicturePage.showPage(this.rootElement); 
-          (<CategoryPage>this.categoryPicturePage).addComponents(); 
+          (<CategoryPage>this.categoryPicturePage).addComponents(this.everyNth(categoryPictureData, 10)); 
           this.initCategoryPictureButtons();
           console.log('show Category Picture page'); 
           break;
@@ -104,9 +111,35 @@ export class Controller {
     });
   }
 
+  loadDataCategoryArtist() {
+    const categoryNumber = 1;
+    const fromData = categoryNumber;
+    const toData = fromData + (Constants.CATEGORY_ROUNDS * Constants.ROUND_QUESTIONS);
+
+    return picturesData.slice(fromData, toData);
+  }
+
   initCategoryPictureButtons() {
     (<CategoryPage>this.categoryPicturePage).backMenu.component.addEventListener('click', () => {
       window.location.href = '/'
     });
+  }
+
+  loadDataPictureArtist() {
+    const categoryNumber = 121;
+    const fromData = categoryNumber;
+    const toData = fromData + (Constants.CATEGORY_ROUNDS * Constants.ROUND_QUESTIONS);
+
+    return picturesData.slice(fromData, toData);
+  }
+
+  everyNth(array: picturesType[], n: number) {
+    const result: picturesType[] = [];
+    for (let i = 0; i < array.length; i += n) {
+      if (array[i]) {
+        result.push(array[i]);
+      }
+    }
+    return result;
   }
 }

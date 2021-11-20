@@ -1,4 +1,6 @@
-const pictures = [
+import { picturesType } from '../abstract/types';
+
+export const picturesData: picturesType[] = [
 	{
 			author: 'Павел Федотов',
 			name: 'Сватовство майора',
@@ -1446,5 +1448,3 @@ const pictures = [
 			imageNum: '240',
 	},
 ];
-
-export default pictures;

@@ -1,0 +1,75 @@
+.button {
+  @extend %font-primary;
+  @include font($size: $font4, $weight: 300);
+  border: none;
+  @extend %transition;
+  cursor: pointer; 
+  
+  &-transparent {
+    background-color: transparent;
+    border-color: $color-light;
+    color: $color-light;
+    
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 22px;
+    padding: 10px 40px;
+    margin-bottom: 1rem;
+    min-width: 80%;
+
+    transition: all 0.2s linear;
+    &:hover {
+      border-color: $color-primary;
+      background-color: $color-primary;
+      color: $color-light;
+      transition: all 0.2s linear;
+    }
+    
+    @media (min-width: $mq3) {
+      min-width: 40%;
+    }
+  }
+
+  &-navigate {
+    background-color: transparent;
+    color: $color-light;
+  }
+
+  &-category {
+    // background-image: url('');
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 120%;
+    border: 3px solid $color-light;
+    color: $color-light;
+    width: 130px;
+    height: 150px; 
+    border-radius: 20%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    transition: all 0.2s linear;
+    &:hover {
+      filter: brightness(1.2) drop-shadow(5px 5px 5px $color-primary);
+      border: 3px solid $color-primary;
+      transition: all 0.2s linear;
+    }
+    &.disable {
+      filter: grayscale(100%);  
+      &:hover {
+        filter: grayscale(100%) brightness(1.2) drop-shadow(5px 5px 5px $color-light);
+        border: 3px solid $color-primary;
+        transition: all 0.2s linear;    
+      }
+    }
+  
+
+    @media (min-width: $mq3) {
+      width: 220px;
+      height: 240px;
+    }
+  }
+
+}
+
+

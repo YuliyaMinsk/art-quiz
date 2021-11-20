@@ -9,10 +9,13 @@
 // Base
 @import "base/fonts";
 @import "base/base";
-@import "base/buttons";
-@import "base/toggle";
-@import "base/range";
-@import "base/counter";
+
+// Components
+@import "components/buttons";
+@import "components/toggle";
+@import "components/range";
+@import "components/counter";
+@import "components/categoryelement";
 
 // Layouts
 @import "layouts/header";

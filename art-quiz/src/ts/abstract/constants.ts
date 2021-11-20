@@ -4,6 +4,9 @@ export class Constants {
   static SOUND_LOSE_URL: string = './assets/audio/error-signal.wav';
   static SOUND_END_ROUND_URL: string = './assets/audio/end-round.wav';
 
+  static CATEGORY_ROUNDS: number = 12;
+  static ROUND_QUESTIONS: number = 10;
+
   static WELCOME_BUTTON_FIRST_CATEGORY: string = 'Художники';
   static WELCOME_BUTTON_SECOND_CATEGORY: string = 'Картины';
   static WELCOME_BUTTON_SETTINGS: string = 'Настройки';
