@@ -3,7 +3,7 @@ import { BaseComponent } from '../../abstract/basecomponent';
 export class Counter extends BaseComponent {
   readonly minusButton: HTMLButtonElement;
   readonly plusButton: HTMLButtonElement;
-  readonly inputField: HTMLInputElement;
+  readonly counterElement: HTMLInputElement;
   readonly labelElement: HTMLElement;
   
   constructor(classes: string[] = [], textDescription: string, id: string) {
@@ -16,15 +16,15 @@ export class Counter extends BaseComponent {
     const div = document.createElement('div');
     div.classList.add('counter-box');
 
-    this.inputField = document.createElement('input');
-    this.inputField.classList.add('counter-input');
-    this.inputField.setAttribute('type', 'number');
-    this.inputField.setAttribute('min', '0');
-    this.inputField.setAttribute('max', '30');
-    this.inputField.setAttribute('step', '5');
-    this.inputField.setAttribute('value', '0');
-    this.inputField.readOnly = true;
-    this.inputField.setAttribute('id', id);
+    this.counterElement = document.createElement('input');
+    this.counterElement.classList.add('counter-input');
+    this.counterElement.setAttribute('type', 'number');
+    this.counterElement.setAttribute('min', '0');
+    this.counterElement.setAttribute('max', '30');
+    this.counterElement.setAttribute('step', '5');
+    this.counterElement.setAttribute('value', '0');
+    this.counterElement.readOnly = true;
+    this.counterElement.setAttribute('id', id);
 
     this.minusButton = document.createElement('button');
     this.minusButton.classList.add('counter-button');
@@ -41,7 +41,7 @@ export class Counter extends BaseComponent {
 
     div.append (
       this.minusButton,
-      this.inputField,
+      this.counterElement,
       this.plusButton
     );
   }

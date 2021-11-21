@@ -35,4 +35,14 @@ export class Router {
     return this.routes.filter((route) => {return route.path.match(regEx)});
   }
 
+  createRouteMap() {
+    this.addNewRoute('/', 'Home');
+    this.addNewRoute('/#settings', 'Settings');
+    this.addNewRoute('/#artists', 'CategoryArtist');
+    this.addNewRoute('/#pictures', 'CategoryPicture');
+    this.addNewRoute('/#artistsquiz', 'QuizArtist');
+    this.addNewRoute('/#picturesquiz', 'QuizPicture');
+    this.addNewRoute('/#results', 'Results');
+  }
+
 }

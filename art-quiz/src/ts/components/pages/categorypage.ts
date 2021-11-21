@@ -3,7 +3,7 @@ import { Image } from '../elements/image';
 import { NavigateButton } from '../buttons/navigatebutton';
 import { CategoryElement } from '../elements/categoryelement';
 import { Constants } from '../../abstract/constants';
-import { picturesType } from '../../abstract/types';
+import { TypeQuiz, PicturesType } from '../../abstract/types';
 
 
 export class CategoryPage extends Page {
@@ -11,7 +11,7 @@ export class CategoryPage extends Page {
   readonly backMenu: NavigateButton;
   readonly roundButtons: CategoryElement[];
 
-  constructor(nameCategory: string, startNumber: number) {
+  constructor(nameCategory: TypeQuiz, startNumber: number) { // ??? Do I need the variables?
     super(['header-category'], ['main-category']);
 
     this.logo = new Image(['logo', 'logo-navigate']);
@@ -19,26 +19,25 @@ export class CategoryPage extends Page {
     this.roundButtons = Array.from({length: Constants.CATEGORY_ROUNDS}, function() {return new CategoryElement()});
   }
   
-  addComponents(picturesCategoryData: picturesType[]) {
-    
+  addComponents(picturesCategoryData: PicturesType[]) {    
     this.roundButtons.forEach((button, index) => {
       button.roundCategoryNumber = picturesCategoryData[index].imageNum;
       button.roundButton.style.backgroundImage = `url(../assets/pictures/img/${button.roundCategoryNumber}.jpg)`;
+      button.roundButton.setAttribute('id', picturesCategoryData[index].imageNum);
       button.roundText.textContent = (index + 1) + ' раунд';
       if (button.isCategoryCompleted) {
-        button.numberCompletedText.textContent = '0 / 10'; // ???? should change for info from local storage
+        button.numberCompletedText.textContent = '0 / 10'; // !!!! should change for info from local storage
       } else {
         button.roundButton.classList.add('disable');
       }
     });
-    console.log('roundButtons: ', this.roundButtons, this);
 
     this.removeComponents();    
     this.header.component.append(
       this.logo.component, 
       this.backMenu.component,
-      );
-    this.main.component.append(
+    );
+    this.main.component.append(           // change to array... this.roundButtons.forEach(button => this.main.component.append(button)); 
       this.roundButtons[0].component,
       this.roundButtons[1].component,
       this.roundButtons[2].component,

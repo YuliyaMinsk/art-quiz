@@ -49,6 +49,14 @@ a {
   display: flex;
 }
 
+#root {
+  margin: 0 auto;
+  padding: 0.5rem;
+  @media (min-width: $mq2) {
+    width: 60%;
+  }
+}
+
 .hide-block {
-  opacity: 0;
+  display: none;
 }

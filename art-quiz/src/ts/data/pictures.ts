@@ -1,6 +1,6 @@
-import { picturesType } from '../abstract/types';
+import { PicturesType } from '../abstract/types';
 
-export const picturesData: picturesType[] = [
+export const picturesData: PicturesType[] = [
 	{
 			author: 'Павел Федотов',
 			name: 'Сватовство майора',

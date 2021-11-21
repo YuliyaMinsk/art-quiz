@@ -26,7 +26,7 @@
     }
     
     @media (min-width: $mq3) {
-      min-width: 40%;
+      min-width: 60%;
     }
   }
 
@@ -36,7 +36,6 @@
   }
 
   &-category {
-    // background-image: url('');
     background-repeat: no-repeat;
     background-position: center; 
     background-size: 120%;
@@ -62,12 +61,16 @@
         transition: all 0.2s linear;    
       }
     }
-  
 
     @media (min-width: $mq3) {
       width: 220px;
       height: 240px;
     }
+  }
+
+  &-quiz {
+    width: 150px;
+    height: 50px; 
   }
 
 }

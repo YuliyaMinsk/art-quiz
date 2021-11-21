@@ -1,8 +1,10 @@
-export type picturesType = {
+export type PicturesType = {
 	author: string,
 	name: string,
 	year: string,
 	imageNum: string,
 }
 
-export type onoff = 'off' | 'on';
+export type OnOff = 'off' | 'on';
+
+export type TypeQuiz = 'Artists' | 'Pictures';

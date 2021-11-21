@@ -3,19 +3,41 @@ import { Image } from '../elements/image';
 import { NavigateButton } from '../buttons/navigatebutton';
 import { QuizElement } from '../elements/quizelement';
 import { Constants } from '../../abstract/constants';
-import { picturesType } from '../../abstract/types';
+import { PicturesType, TypeQuiz } from '../../abstract/types';
 
 export class QuizPage extends Page {
   readonly logo: Image;
   readonly backMenu: NavigateButton;
-  readonly quizElement: QuizElement;
+  readonly nameCategory: TypeQuiz;
+  quizElement?: QuizElement;
 
-  constructor(nameCategory: string, quizNumber: number) {
+  constructor(nameCategory: TypeQuiz) {
     super(['header-quiz'], ['main-quiz']);
 
     this.logo = new Image(['logo', 'logo-navigate']);
     this.backMenu = new NavigateButton(Constants.NAV_BUTTON_CATEGORY, ['icon-back']);
 
-    this.quizElement = new QuizElement([], nameCategory, quizNumber);
+    this.nameCategory = nameCategory;
+  }
+  
+  loadQuiz(question: PicturesType, answers: string[]) {
+    this.quizElement = new QuizElement([], this.nameCategory, question, answers);
+  }
+
+  addComponents() {
+
+    
+    this.removeComponents();
+    this.header.component.append(
+      this.logo.component, 
+      this.backMenu.component,
+      );
+    if (this.quizElement) {
+      this.quizElement.pictureQuiz.style.backgroundImage = 
+        `url(../assets/pictures/img/${this.quizElement.numberQuiz}.jpg)`;
+      this.main.component.append(
+        this.quizElement.component
+      );
+    }
   }
 }

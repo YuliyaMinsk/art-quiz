@@ -5,7 +5,8 @@ export class Range extends BaseComponent {
   readonly rangeElement: HTMLInputElement;
   readonly labelElement: HTMLElement;
 
-  constructor(classes: string[] = [], numberFrom: number = 0, numberTo: number = 100, textDescription: string) {
+  constructor(classes: string[] = [], type: string, numberFrom: number = 0, numberTo: number = 100, 
+    textDescription: string) {
     super('div', [...classes]);
 
     this.labelElement = document.createElement('div');
@@ -13,25 +14,27 @@ export class Range extends BaseComponent {
     this.labelElement.textContent = textDescription;
 
     this.rangeElement = document.createElement('input');
-    this.rangeElement.type = 'range';
-    this.rangeElement.min = String(numberFrom);
-    this.rangeElement.max = String(numberTo);
-    this.rangeElement.value = String((numberFrom + numberTo) / 4);
-    this.rangeElement.step = '1';
+    this.rangeElement.setAttribute('type', 'range');
+    this.rangeElement.setAttribute('min', String(numberFrom));
+    this.rangeElement.setAttribute('max', String(numberTo));
+    this.rangeElement.setAttribute('value', String((numberFrom + numberTo) / 4));
+    this.rangeElement.setAttribute('step', '1');
 
-    const div = new BaseComponent('div', ['icons-volume']);
-    this.component.append(
-      this.labelElement,
-      this.rangeElement,
-      div.component
-    );
+    if (type === 'setting') {
+      const div = new BaseComponent('div', ['icons-volume']);
+      this.component.append(
+        this.labelElement,
+        this.rangeElement,
+        div.component
+      );
 
-    const iconVolumeMute = new Image(['icon-volume-mute']);
-    const iconVolumeUp = new Image(['icon-volume-up']);
-    div.component.append(
-      iconVolumeMute.component,
-      iconVolumeUp.component
-    );
+      const iconVolumeMute = new Image(['icon-volume-mute']);
+      const iconVolumeUp = new Image(['icon-volume-up']);
+      div.component.append(
+        iconVolumeMute.component,
+        iconVolumeUp.component
+      );
+    }
   }
 
   changeRange() {

@@ -24,12 +24,12 @@ export class SettingsPage extends Page {
     this.backMenu = new NavigateButton(Constants.NAV_BUTTON_SETTINGS, ['icon-back']);
     // this.closeMenu = new NavigateButton('', ['icon-close']);
 
-    this.volume = new Range(['range'], 0, 100, 'Громкость звука');
+    this.volume = new Range(['range'], 'setting', 0, 100, 'Громкость звука');
     this.toggle = new Toggle(['toggle'], 'Игра на время', 'time-game');
     this.counter = new Counter(['counter'], 'Время ответа', 'time-answer');
 
     this.defaultButton = new BigButton('Откатить настройки');
-    this.saveButton = new BigButton('Сохранить настройки');
+    this.saveButton = new BigButton('Применить настройки');
   }
 
   addComponents() {
