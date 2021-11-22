@@ -7,9 +7,11 @@
   width: 100%;
   padding: 20px;  
 
-  height: calc(100vh - 11rem);
+  min-height: 65vh;
+  height: auto;
+  //height: calc(100vh - 11rem);
   &-welcome {
-    height: calc(100vh - 17rem);  
+    //height: calc(100vh - 17rem);  
   }
   &-category {
     height: auto;

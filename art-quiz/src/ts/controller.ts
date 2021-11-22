@@ -40,6 +40,7 @@ export class Controller {
     this.quizArtistPage = new QuizPage('Artists');
     this.initQuizArtistButtons();
     this.quizPicturePage = new QuizPage('Pictures');
+    this.initQuizPictureButtons();
     this.setSoundsVolume();
 
     this.results = new Results();
@@ -85,9 +86,9 @@ export class Controller {
           console.log('show Category Artist page'); 
           break;
         case 'CategoryPicture': 
-          const categoryPictureData = this.loadDataPictureArtist();
+          const categoryPictureData = this.loadDataCategoryPicture();
           this.categoryPicturePage.showPage(this.rootElement); 
-          (<CategoryPage>this.categoryPicturePage).addComponents(this.everyNth(categoryPictureData, 10), this.results.resultPaintingsQuiz); 
+          (<CategoryPage>this.categoryPicturePage).addComponents(this.everyNth(categoryPictureData, 10), this.results.resultPictureQuiz); 
           console.log('show Category Picture page'); 
           break;
         case 'QuizArtist':           
@@ -95,7 +96,11 @@ export class Controller {
           (<QuizPage>this.quizArtistPage).addComponents(); 
           console.log('show Quiz Artist page'); 
           break;
-        // case 'QuizPicture': this.quizPage.showPage(this.rootElement); break;
+        case 'QuizPicture': 
+          this.quizPicturePage.showPage(this.rootElement);
+          (<QuizPage>this.quizPicturePage).addComponents();  
+          console.log('show Quiz Picture page'); 
+          break;
         // case 'Results': this.resultsPage.showPage(this.rootElement); break;
         // default: this.er404Page.showPage(this.rootElement); break;
       }
@@ -219,8 +224,8 @@ export class Controller {
   }
 
   loadDataQuizArtist(quizNumber: number) {
-    const answers = this.generateFourRandomAnswers(picturesData[quizNumber].author);
-    (<QuizPage>this.quizArtistPage).loadQuiz(picturesData[quizNumber], answers, this.results.resultArtistQuiz[this.round]);
+    const answers = this.generateFourRandomNames(picturesData[quizNumber].author);
+    (<QuizPage>this.quizArtistPage).loadQuiz(picturesData[quizNumber], answers, this.results.resultArtistQuiz[this.round], this.settings);
   }
 
 
@@ -233,7 +238,6 @@ export class Controller {
       (<CategoryPage>this.categoryArtistPage).roundButtons[this.round].isCategoryCompleted = false;
       (<CategoryPage>this.categoryArtistPage).roundButtons[this.round].roundButton.classList.add('disable');
       (<CategoryPage>this.categoryArtistPage).roundButtons[this.round].numberCompletedText.textContent = '';
-      console.log('DONE?', (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].numberCompletedText.textContent);
       this.results.saveToLocalStorage();
       location.href = '#artists'
     });
@@ -252,7 +256,6 @@ export class Controller {
             (<QuizPage>this.quizArtistPage).winModal.fillModalGame(dataQuiz);
           }
           this.results.resultArtistQuiz[this.round][this.question] = '1'; // ROUND WIN
-          this.results.print(); // To DELETE
           if ((this.settings.isSound) && (this.settings.volume)) {
             Sounds.soundWin.play();
           }
@@ -263,7 +266,6 @@ export class Controller {
             (<QuizPage>this.quizArtistPage).loseModal.fillModalGame(dataQuiz);
           }
           this.results.resultArtistQuiz[this.round][this.question] = '0'; // ROUND LOSE
-          this.results.print(); // To DELETE
           if ((this.settings.isSound) && (this.settings.volume)) {
             Sounds.soundLose.play();
           }
@@ -272,6 +274,9 @@ export class Controller {
     (<QuizPage>this.quizArtistPage).winModal.nextButton.component.addEventListener('click', (event) => {
       this.question++;
       if (this.question == 10) {
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundEndRound.play();
+        }
         (<QuizPage>this.quizArtistPage).winModal.component.style.display = 'none';
         (<QuizPage>this.quizArtistPage).loseModal.component.style.display = 'none';
         (<QuizPage>this.quizArtistPage).endModal.component.style.display = 'block';
@@ -279,11 +284,11 @@ export class Controller {
         (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted = true;
         console.log('isCatCompl',this.round, (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted);
         this.results.saveToLocalStorage();
-
-        // should update category!!!
-
       } else {
-        console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundClick.play();
+        }
+        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
         this.loadDataQuizArtist((this.round * 10) + (this.question + 1));
         (<QuizPage>this.quizArtistPage).addComponents(); 
       }
@@ -302,7 +307,10 @@ export class Controller {
         console.log('isCatCompl',this.round, (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted);
         this.results.saveToLocalStorage();
       } else {
-        console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundClick.play();
+        }
+        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
         this.loadDataQuizArtist((this.round * 10) + (this.question + 1));
         (<QuizPage>this.quizArtistPage).addComponents(); 
       }
@@ -341,15 +349,136 @@ export class Controller {
       }
       location.href = '#'
     });
+    (<CategoryPage>this.categoryPicturePage).main.component.addEventListener('click', (event) => {
+      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      this.round = this.getNumberRound(Number((<Element>event.target).id));
+      this.question = this.getNumberQuestion(Number((<Element>event.target).id));
+      this.results.resultPictureQuiz[this.round].fill('null');
+      this.loadDataQuizPicture(Number((<Element>event.target).id));
+      location.href = '#picturesquiz'
+    });
   }
 
-  loadDataPictureArtist() {
+  loadDataCategoryPicture() {
     const categoryNumber = 121;
     const fromData = categoryNumber;
     const toData = fromData + (Constants.CATEGORY_ROUNDS * Constants.ROUND_QUESTIONS);
 
     return picturesData.slice(fromData, toData);
   }
+
+  loadDataQuizPicture(quizNumber: number) {
+    const answers = this.generateFourRandomPictures(picturesData[quizNumber].imageNum);
+    // console.log('answers', answers); // To DELETE
+    (<QuizPage>this.quizPicturePage).loadQuiz(picturesData[quizNumber], answers, this.results.resultPictureQuiz[this.round], this.settings);
+  }
+
+  initQuizPictureButtons() {
+    (<QuizPage>this.quizPicturePage).backMenu.component.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      this.results.resultPictureQuiz[this.round].fill('null');
+      (<CategoryPage>this.categoryPicturePage).roundButtons[this.round].isCategoryCompleted = false;
+      (<CategoryPage>this.categoryPicturePage).roundButtons[this.round].roundButton.classList.add('disable');
+      (<CategoryPage>this.categoryPicturePage).roundButtons[this.round].numberCompletedText.textContent = '';
+      this.results.saveToLocalStorage();
+      location.href = '#pictures'
+    });
+    (<QuizPage>this.quizPicturePage).quizElement?.component.addEventListener('click', (event) => {
+      const dataQuiz = (<QuizPage>this.quizPicturePage).quizElement?.dataQuiz;
+
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
+      
+       if ((<Element>event.target).id == (<QuizPage>this.quizPicturePage).quizElement?.dataQuiz?.imageNum) {
+          (<Element>event.target).classList.add('button-win');
+          (<QuizPage>this.quizPicturePage).winModal.component.style.display = 'block';
+          if (dataQuiz) {
+            (<QuizPage>this.quizPicturePage).winModal.fillModalGame(dataQuiz);
+          }
+          this.results.resultPictureQuiz[this.round][this.question] = '1'; // ROUND WIN
+          if ((this.settings.isSound) && (this.settings.volume)) {
+            Sounds.soundWin.play();
+          }
+        } else {
+          (<Element>event.target).classList.add('button-lose');
+          (<QuizPage>this.quizPicturePage).loseModal.component.style.display = 'block';
+          if (dataQuiz) {
+            (<QuizPage>this.quizPicturePage).loseModal.fillModalGame(dataQuiz);
+          }
+          this.results.resultPictureQuiz[this.round][this.question] = '0'; // ROUND LOSE
+          if ((this.settings.isSound) && (this.settings.volume)) {
+            Sounds.soundLose.play();
+          }
+        }
+    });
+    (<QuizPage>this.quizPicturePage).winModal.nextButton.component.addEventListener('click', (event) => {
+      this.question++;
+      if (this.question == 10) {
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundEndRound.play();
+        }
+        (<QuizPage>this.quizPicturePage).winModal.component.style.display = 'none';
+        (<QuizPage>this.quizPicturePage).loseModal.component.style.display = 'none';
+        (<QuizPage>this.quizPicturePage).endModal.component.style.display = 'block';
+        (<QuizPage>this.quizPicturePage).endModal.fillModalEndTour(this.results.resultPictureQuiz[this.round]);
+        (<CategoryPage>this.categoryPicturePage).roundButtons[this.round + 1].isCategoryCompleted = true;
+        console.log('isCatCompl',this.round, (<CategoryPage>this.categoryPicturePage).roundButtons[this.round + 1].isCategoryCompleted);
+        this.results.saveToLocalStorage();
+      } else {
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundClick.play();
+        }
+        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
+        this.loadDataQuizPicture(120 + (this.round * 10) + (this.question + 1));
+        (<QuizPage>this.quizPicturePage).addComponents(); 
+      }
+    });
+    (<QuizPage>this.quizPicturePage).loseModal.nextButton.component.addEventListener('click', (event) => {
+      this.question++;
+      if (this.question == 10) {
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundEndRound.play();
+        }
+        (<QuizPage>this.quizPicturePage).winModal.component.style.display = 'none';
+        (<QuizPage>this.quizPicturePage).loseModal.component.style.display = 'none';
+        (<QuizPage>this.quizPicturePage).endModal.component.style.display = 'block';
+        (<QuizPage>this.quizPicturePage).endModal.fillModalEndTour(this.results.resultPictureQuiz[this.round]);
+        (<CategoryPage>this.categoryPicturePage).roundButtons[this.round + 1].isCategoryCompleted = true;
+        console.log('isCatCompl',this.round, (<CategoryPage>this.categoryPicturePage).roundButtons[this.round + 1].isCategoryCompleted);
+        this.results.saveToLocalStorage();
+      } else {
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundClick.play();
+        }
+        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
+        this.loadDataQuizPicture(120 + (this.round * 10) + (this.question + 1));
+        (<QuizPage>this.quizPicturePage).addComponents(); 
+      }
+    });  
+
+    (<QuizPage>this.quizPicturePage).endModal.homeButton.component.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      (<QuizPage>this.quizPicturePage).endModal.component.style.display = 'none';      
+      location.href = '#';
+    });   
+    (<QuizPage>this.quizPicturePage).endModal.categoryButton.component.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }      
+      (<QuizPage>this.quizPicturePage).endModal.component.style.display = 'none'; 
+      location.href = '#pictures';
+    });  
+  }
+
 
 ////////////// COMMON
 
@@ -363,7 +492,7 @@ export class Controller {
     return result;
   }
 
-  generateFourRandomAnswers(rightanswer: string) {
+  generateFourRandomNames(rightanswer: string) {
     const max: number = (Constants.CATEGORY_ROUNDS * Constants.ROUND_QUESTIONS);
     let answers: string[] = [];
 
@@ -372,6 +501,21 @@ export class Controller {
       let randomNumber = Math.round(Math.random()*max);
       if (!answers.includes(picturesData[randomNumber].author)) {
         answers.push(picturesData[randomNumber].author);
+      }
+    }
+    return this.shuffle(answers);
+  }
+
+  generateFourRandomPictures(rightanswer: string) {
+    const max: number = 120 + (Constants.CATEGORY_ROUNDS * Constants.ROUND_QUESTIONS);
+    const min: number = 120;
+    let answers: string[] = [];
+
+    answers.push(rightanswer);
+    while (answers.length < 4) {
+      let randomNumber = Math.round(Math.random()* (max - min) + min);
+      if (!answers.includes(picturesData[randomNumber].imageNum)) {
+        answers.push(picturesData[randomNumber].imageNum);
       }
     }
     return this.shuffle(answers);

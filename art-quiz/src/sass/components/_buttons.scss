@@ -77,6 +77,14 @@
     &.button-lose {
       background-color: $color-disabled;
     } 
+
+    &.button-with-pictures{
+      width: 150px;
+      height: 150px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
   }
 
   &.modal-big-button {

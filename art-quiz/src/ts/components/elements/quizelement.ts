@@ -6,6 +6,7 @@ export class QuizElement extends BaseComponent {
   readonly questionQuiz: HTMLElement;
   readonly answersQuiz: HTMLButtonElement[];
   readonly timerQuiz: HTMLInputElement;
+  timerText: HTMLElement;
   readonly indicatorQuiz: HTMLElement[];
   dataQuiz?: PicturesType;
 
@@ -44,12 +45,18 @@ export class QuizElement extends BaseComponent {
       button.classList.add('button-quiz');
     });
 
+    const divTimer = document.createElement('div');
+    divTimer.classList.add('timer-box');
+
     this.timerQuiz = document.createElement('input');
     this.timerQuiz.setAttribute('type', 'range');
     this.timerQuiz.setAttribute('min', '0');
     //this.timerQuiz.setAttribute('max', String(settings.timer));
     this.timerQuiz.setAttribute('value', '0');
     this.timerQuiz.setAttribute('step', '1');
+
+    this.timerText = document.createElement('p');
+    this.timerText.classList.add('timer-text');
 
     const divIndicator = document.createElement('div');
     divIndicator.classList.add('indicator-box');
@@ -60,11 +67,16 @@ export class QuizElement extends BaseComponent {
     });
 
     this.component.append(
-      this.timerQuiz,
+      divTimer,
       this.pictureQuiz,
       divIndicator,
       this.questionQuiz,
       divAnswer
+    );
+
+    divTimer.append(
+      this.timerQuiz,
+      this.timerText
     );
 
     divAnswer.append(         // change to array... this.roundButtons.forEach(button => this.main.component.append(button)); 
@@ -94,7 +106,15 @@ export class QuizElement extends BaseComponent {
     this.answersQuiz.forEach((button, index) => {
       button.classList.remove('button-win');
       button.classList.remove('button-lose');
-      button.textContent = answers[index]; 
+      switch (typeQuiz) {
+        case 'Artists':
+          button.textContent = answers[index];     
+          break;
+        case 'Pictures':
+          button.id = answers[index];
+          button.style.backgroundImage = `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/pictures/img/${answers[index]}.jpg)`;
+          break;
+      } 
     });
     this.indicatorQuiz.forEach((bullet, index) => {
       switch (results[index]) {      

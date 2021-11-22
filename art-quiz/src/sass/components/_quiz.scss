@@ -3,6 +3,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .timer-box {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    & input {
+      width: 70%;
+    }
+    .timer-text {
+      color: $color-light;
+      @include font($font4, #{$font4}, 300);
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+  }
   
   .picture-quiz {
     width: 300px;

@@ -1,5 +1,6 @@
 import './sass/style.scss';
 import { Controller } from './ts/controller'
+import { showEstimate } from './ts/data/estimate';
 
 window.onload = () => {
   const appElement = document.getElementById('root');
@@ -8,5 +9,5 @@ window.onload = () => {
   
   const appController = new Controller(appElement);
   appController.start();
-
+  showEstimate();
 }

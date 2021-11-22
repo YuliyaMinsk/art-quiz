@@ -15,5 +15,7 @@ export class Constants {
   static NAV_BUTTON_HOME: string = 'Главная';
   static NAV_BUTTON_SETTINGS: string = 'Настройки';
   static NAV_BUTTON_CATEGORY: string = 'Категории';
+  static NAV_BUTTON_ARTIST: string = 'Узнай художника';
+  static NAV_BUTTON_PICTURE: string = 'Узнай картину';
   static NAV_BUTTON_SCORE: string = 'Результаты';
 }

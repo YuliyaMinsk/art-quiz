@@ -5,6 +5,7 @@ import { QuizElement } from '../elements/quizelement';
 import { Constants } from '../../abstract/constants';
 import { PicturesType, ResultQuiz, TypeQuiz } from '../../abstract/types';
 import { Modal } from '../elements/modal';
+import { SettingsQuiz } from '../../data/settings';
 
 export class QuizPage extends Page {
   readonly logo: Image;
@@ -19,8 +20,15 @@ export class QuizPage extends Page {
     super(['header-quiz'], ['main-quiz']);
 
     this.logo = new Image(['logo', 'logo-navigate']);
-    this.backMenu = new NavigateButton(Constants.NAV_BUTTON_CATEGORY, ['icon-back']);
     this.nameCategory = nameCategory;
+    switch (this.nameCategory) {
+      case 'Artists':
+        this.backMenu = new NavigateButton(Constants.NAV_BUTTON_ARTIST, ['icon-back']);    
+        break;
+      case 'Pictures':
+        this.backMenu = new NavigateButton(Constants.NAV_BUTTON_PICTURE, ['icon-back']);
+        break;
+    }
     this.quizElement = new QuizElement([], this.nameCategory);
 
     this.winModal = new Modal([], 'modal-win');
@@ -28,10 +36,16 @@ export class QuizPage extends Page {
     this.endModal = new Modal([], 'modal-end-tour');
   }
   
-  loadQuiz(question: PicturesType, answers: string[], results: string[]) {
+  loadQuiz(question: PicturesType, answers: string[], results: string[], settings: SettingsQuiz) {
     this.quizElement?.setQuizButtons(this.nameCategory, question, answers, results);
     this.winModal.component.style.display = 'none';
     this.loseModal.component.style.display = 'none';
+    if (!settings.gameForTime) {
+      this.quizElement?.timerQuiz.classList.add('hide-block');
+      this.quizElement?.timerText.classList.add('hide-block');
+    } else {
+      if (this.quizElement) this.quizElement.timerText.textContent = String(settings.timer);
+    }
   }
 
   addComponents() {    
@@ -40,9 +54,22 @@ export class QuizPage extends Page {
       this.logo.component, 
       this.backMenu.component,
       );
+
     if ((this.quizElement) && (this.quizElement.dataQuiz)) {
-      this.quizElement.pictureQuiz.style.backgroundImage = 
-        `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/pictures/img/${this.quizElement.dataQuiz.imageNum}.jpg)`;
+      
+      switch (this.nameCategory) {
+        case 'Artists':
+          this.quizElement.pictureQuiz.style.backgroundImage = 
+          `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/pictures/img/${this.quizElement.dataQuiz.imageNum}.jpg)`;   
+          break;
+        case 'Pictures':
+          this.quizElement.answersQuiz.forEach((button, index) => {
+            button.classList.add('button-with-pictures');
+
+          });
+          break;
+      }
+
       this.main.component.append(
         this.quizElement.component,
         this.winModal.component,
