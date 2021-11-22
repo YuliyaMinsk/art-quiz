@@ -96,6 +96,7 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
+      console.log(window.location, window.location.href); // to DELETE
       window.location.href = '/#artists'
     });
     (<WelcomePage>this.welcomePage).picturesButton.component.addEventListener('click', () => {
@@ -103,12 +104,14 @@ export class Controller {
         Sounds.soundClick.play();
       }
       window.location.href = '/#pictures'
+      console.log(window.location, window.location.href); // to DELETE
     });
     (<WelcomePage>this.welcomePage).settingsButton.component.addEventListener('click', () => {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
       window.location.href = '/#settings'
+      console.log(window.location, window.location.href); // to DELETE
     });
   }
 
