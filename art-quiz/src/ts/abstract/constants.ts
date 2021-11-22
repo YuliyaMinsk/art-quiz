@@ -1,8 +1,8 @@
 export class Constants {
-  static SOUND_CLICK_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/audio/normal-click.wav';
-  static SOUND_WIN_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/audio/win-signal.wav';
-  static SOUND_LOSE_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/audio/error-signal.wav';
-  static SOUND_END_ROUND_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/end-round.wav';
+  static SOUND_CLICK_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/audio/normal-click.wav';
+  static SOUND_WIN_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/audio/win-signal.wav';
+  static SOUND_LOSE_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/audio/error-signal.wav';
+  static SOUND_END_ROUND_URL: string = 'https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/end-round.wav';
 
   static CATEGORY_ROUNDS: number = 12;
   static ROUND_QUESTIONS: number = 10;

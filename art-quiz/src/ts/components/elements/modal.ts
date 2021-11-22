@@ -95,7 +95,7 @@ export class Modal extends BaseComponent {
   }
 
   fillModalGame(question: PicturesType) {
-    this.imageModal.style.backgroundImage = `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/pictures/img/${question.imageNum}.jpg)`;
+    this.imageModal.style.backgroundImage = `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/pictures/img/${question.imageNum}.jpg)`;
     this.namePictureModal.textContent = question.name;
     this.authorModal.textContent = `${question.author}, ${question.year}`
   }

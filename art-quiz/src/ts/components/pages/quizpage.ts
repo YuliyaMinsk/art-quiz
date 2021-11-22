@@ -40,7 +40,7 @@ export class QuizPage extends Page {
       );
     if ((this.quizElement) && (this.quizElement.dataQuiz)) {
       this.quizElement.pictureQuiz.style.backgroundImage = 
-        `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/pictures/img/${this.quizElement.dataQuiz.imageNum}.jpg)`;
+        `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/pictures/img/${this.quizElement.dataQuiz.imageNum}.jpg)`;
       this.main.component.append(
         this.quizElement.component,
         this.winModal.component,
