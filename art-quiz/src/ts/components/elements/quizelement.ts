@@ -1,5 +1,5 @@
 import { BaseComponent } from '../../abstract/basecomponent';
-import { TypeQuiz, PicturesType } from '../../abstract/types';
+import { TypeQuiz, PicturesType, ResultQuiz } from '../../abstract/types';
 
 export class QuizElement extends BaseComponent {
   readonly pictureQuiz: HTMLElement;
@@ -88,15 +88,29 @@ export class QuizElement extends BaseComponent {
     );
   }
 
-  setQuizButtons(typeQuiz: TypeQuiz, question: PicturesType, answers: string[]) {
+  setQuizButtons(typeQuiz: TypeQuiz, question: PicturesType, answers: string[], results: string[]) {    
+
     this.dataQuiz = question;
     this.answersQuiz.forEach((button, index) => {
+      button.classList.remove('button-win');
+      button.classList.remove('button-lose');
       button.textContent = answers[index]; 
     });
     this.indicatorQuiz.forEach((bullet, index) => {
-      if ((this.dataQuiz) && (index <= Number(this.dataQuiz.imageNum))) {
-        bullet.classList.add('indicator-yes');
-      }
+      switch (results[index]) {      
+        case 'null':
+          bullet.classList.remove('win');
+          bullet.classList.remove('lose');
+          break;
+        case '1':
+          bullet.classList.add('win');
+          bullet.classList.remove('lose');
+          break;
+        case '0':
+          bullet.classList.remove('win');
+          bullet.classList.add('lose');
+          break;
+        }
     });
     switch (typeQuiz) {
       case 'Artists':

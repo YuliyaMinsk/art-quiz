@@ -31,6 +31,12 @@
   &.modal-lose {
     color: $color-dark;
   }
+  &.modal-end-tour {
+    color: $color-primary;
+  }
+  @media (min-width: $mq3) {
+    width: 40%;
+  }
 }
 
 .modal-image {
@@ -39,6 +45,9 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  &.modal-end-tour {
+    background-image: url('https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-quiz/assets/icons/champion-cup.svg');
+  }
 }
 
 .modal-title {
@@ -58,11 +67,18 @@
   margin-bottom: 20px;
 }
 
+.modal-score {
+  @include font($font3, #{$font3}, 300);
+  margin-bottom: 20px;
+}
+
 .modal-buttons {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   @media (min-width: $mq3) {
+    flex-direction: row;
     width: 500px;
   }
 }

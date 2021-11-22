@@ -3,7 +3,7 @@ import { Image } from '../elements/image';
 import { NavigateButton } from '../buttons/navigatebutton';
 import { QuizElement } from '../elements/quizelement';
 import { Constants } from '../../abstract/constants';
-import { PicturesType, TypeQuiz } from '../../abstract/types';
+import { PicturesType, ResultQuiz, TypeQuiz } from '../../abstract/types';
 import { Modal } from '../elements/modal';
 
 export class QuizPage extends Page {
@@ -28,8 +28,10 @@ export class QuizPage extends Page {
     this.endModal = new Modal([], 'modal-end-tour');
   }
   
-  loadQuiz(question: PicturesType, answers: string[]) {
-    this.quizElement?.setQuizButtons(this.nameCategory, question, answers);
+  loadQuiz(question: PicturesType, answers: string[], results: string[]) {
+    this.quizElement?.setQuizButtons(this.nameCategory, question, answers, results);
+    this.winModal.component.style.display = 'none';
+    this.loseModal.component.style.display = 'none';
   }
 
   addComponents() {    

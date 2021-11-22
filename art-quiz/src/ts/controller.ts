@@ -10,6 +10,7 @@ import { Constants } from './abstract/constants';
 import { PicturesType } from './abstract/types';
 import { picturesData } from './data/pictures';
 import { Sounds } from './data/sounds';
+import { Results } from './data/resultsquiz';
 
 export class Controller {
   private readonly welcomePage: Page; 
@@ -20,6 +21,10 @@ export class Controller {
   private readonly quizPicturePage: Page;
   readonly router: Router;
   readonly settings: SettingsQuiz;
+
+  results: Results;
+  round: number = 0;
+  question: number = 0;
 
   constructor(private readonly rootElement: HTMLElement) {
     this.router = new Router();  
@@ -36,10 +41,16 @@ export class Controller {
     this.initQuizArtistButtons();
     this.quizPicturePage = new QuizPage('Pictures');
     this.setSoundsVolume();
+
+    this.results = new Results();
   }
   
   start() {
     // this.settings.print(); // to DELETE
+    this.rootElement.addEventListener('onunload', () => {   
+      this.results.saveToLocalStorage();
+    });
+
     this.router.createRouteMap();
     this.initRouter();
 
@@ -70,13 +81,13 @@ export class Controller {
         case 'CategoryArtist': 
           const categoryArtistData = this.loadDataCategoryArtist();
           this.categoryArtistPage.showPage(this.rootElement); 
-          (<CategoryPage>this.categoryArtistPage).addComponents(this.everyNth(categoryArtistData, 10)); 
+          (<CategoryPage>this.categoryArtistPage).addComponents(this.everyNth(categoryArtistData, 10), this.results.resultArtistQuiz); 
           console.log('show Category Artist page'); 
           break;
         case 'CategoryPicture': 
           const categoryPictureData = this.loadDataPictureArtist();
           this.categoryPicturePage.showPage(this.rootElement); 
-          (<CategoryPage>this.categoryPicturePage).addComponents(this.everyNth(categoryPictureData, 10)); 
+          (<CategoryPage>this.categoryPicturePage).addComponents(this.everyNth(categoryPictureData, 10), this.results.resultPaintingsQuiz); 
           console.log('show Category Picture page'); 
           break;
         case 'QuizArtist':           
@@ -91,7 +102,7 @@ export class Controller {
     })
   }
 
-  initWelcomeButtons() {
+  initWelcomeButtons() {    
     (<WelcomePage>this.welcomePage).artistsButton.component.addEventListener('click', () => {   
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
@@ -184,13 +195,16 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }      
-      history.back(); 
+      location.href = '#'
     });
     (<CategoryPage>this.categoryArtistPage).main.component.addEventListener('click', (event) => {
       if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
+      this.round = this.getNumberRound(Number((<Element>event.target).id));
+      this.question = this.getNumberQuestion(Number((<Element>event.target).id));
+      this.results.resultArtistQuiz[this.round].fill('null');
       this.loadDataQuizArtist(Number((<Element>event.target).id));
       location.href = '#artistsquiz'
     });
@@ -206,7 +220,7 @@ export class Controller {
 
   loadDataQuizArtist(quizNumber: number) {
     const answers = this.generateFourRandomAnswers(picturesData[quizNumber].author);
-    (<QuizPage>this.quizArtistPage).loadQuiz(picturesData[quizNumber], answers);
+    (<QuizPage>this.quizArtistPage).loadQuiz(picturesData[quizNumber], answers, this.results.resultArtistQuiz[this.round]);
   }
 
 
@@ -215,40 +229,99 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      history.back(); 
+      this.results.resultArtistQuiz[this.round].fill('null');
+      (<CategoryPage>this.categoryArtistPage).roundButtons[this.round].isCategoryCompleted = false;
+      (<CategoryPage>this.categoryArtistPage).roundButtons[this.round].roundButton.classList.add('disable');
+      (<CategoryPage>this.categoryArtistPage).roundButtons[this.round].numberCompletedText.textContent = '';
+      console.log('DONE?', (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].numberCompletedText.textContent);
+      this.results.saveToLocalStorage();
+      location.href = '#artists'
     });
     (<QuizPage>this.quizArtistPage).quizElement?.component.addEventListener('click', (event) => {
+      const dataQuiz = (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz;
+
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
       if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
       
       if ((<Element>event.target).textContent == (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz?.author) {
-        (<Element>event.target).classList.add('button-win');
-        (<QuizPage>this.quizArtistPage).winModal.component.style.display = 'block';
-        const dataQuiz = (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz;
-        if (dataQuiz) {
-          (<QuizPage>this.quizArtistPage).winModal.fillModalGame(dataQuiz);
+          (<Element>event.target).classList.add('button-win');
+          (<QuizPage>this.quizArtistPage).winModal.component.style.display = 'block';
+          if (dataQuiz) {
+            (<QuizPage>this.quizArtistPage).winModal.fillModalGame(dataQuiz);
+          }
+          this.results.resultArtistQuiz[this.round][this.question] = '1'; // ROUND WIN
+          this.results.print(); // To DELETE
+          if ((this.settings.isSound) && (this.settings.volume)) {
+            Sounds.soundWin.play();
+          }
+        } else {
+          (<Element>event.target).classList.add('button-lose');
+          (<QuizPage>this.quizArtistPage).loseModal.component.style.display = 'block';
+          if (dataQuiz) {
+            (<QuizPage>this.quizArtistPage).loseModal.fillModalGame(dataQuiz);
+          }
+          this.results.resultArtistQuiz[this.round][this.question] = '0'; // ROUND LOSE
+          this.results.print(); // To DELETE
+          if ((this.settings.isSound) && (this.settings.volume)) {
+            Sounds.soundLose.play();
+          }
         }
-        if ((this.settings.isSound) && (this.settings.volume)) {
-          Sounds.soundWin.play();
-        }
+    });
+    (<QuizPage>this.quizArtistPage).winModal.nextButton.component.addEventListener('click', (event) => {
+      this.question++;
+      if (this.question == 10) {
+        (<QuizPage>this.quizArtistPage).winModal.component.style.display = 'none';
+        (<QuizPage>this.quizArtistPage).loseModal.component.style.display = 'none';
+        (<QuizPage>this.quizArtistPage).endModal.component.style.display = 'block';
+        (<QuizPage>this.quizArtistPage).endModal.fillModalEndTour(this.results.resultArtistQuiz[this.round]);
+        (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted = true;
+        console.log('isCatCompl',this.round, (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted);
+        this.results.saveToLocalStorage();
+
+        // should update category!!!
+
       } else {
-        (<Element>event.target).classList.add('button-lose');
-        (<QuizPage>this.quizArtistPage).loseModal.component.style.display = 'block';
-        const dataQuiz = (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz;
-        if (dataQuiz) {
-          (<QuizPage>this.quizArtistPage).loseModal.fillModalGame(dataQuiz);
-        }
-        if ((this.settings.isSound) && (this.settings.volume)) {
-          Sounds.soundLose.play();
-        }
+        console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
+        this.loadDataQuizArtist((this.round * 10) + (this.question + 1));
+        (<QuizPage>this.quizArtistPage).addComponents(); 
       }
     });
-    (<QuizPage>this.quizArtistPage).winModal.nextButton.component.addEventListener('click', () => {
-      // save progress
-      // reload quiz page
+    (<QuizPage>this.quizArtistPage).loseModal.nextButton.component.addEventListener('click', (event) => {
+      this.question++;
+      if (this.question == 10) {
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundEndRound.play();
+        }
+        (<QuizPage>this.quizArtistPage).winModal.component.style.display = 'none';
+        (<QuizPage>this.quizArtistPage).loseModal.component.style.display = 'none';
+        (<QuizPage>this.quizArtistPage).endModal.component.style.display = 'block';
+        (<QuizPage>this.quizArtistPage).endModal.fillModalEndTour(this.results.resultArtistQuiz[this.round]);
+        (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted = true;
+        console.log('isCatCompl',this.round, (<CategoryPage>this.categoryArtistPage).roundButtons[this.round + 1].isCategoryCompleted);
+        this.results.saveToLocalStorage();
+      } else {
+        console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
+        this.loadDataQuizArtist((this.round * 10) + (this.question + 1));
+        (<QuizPage>this.quizArtistPage).addComponents(); 
+      }
     });
+
+    (<QuizPage>this.quizArtistPage).endModal.homeButton.component.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      (<QuizPage>this.quizArtistPage).endModal.component.style.display = 'none';      
+      location.href = '#';
+    });   
+    (<QuizPage>this.quizArtistPage).endModal.categoryButton.component.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }      
+      (<QuizPage>this.quizArtistPage).endModal.component.style.display = 'none'; 
+      location.href = '#artists';
+    });  
 
 
     (<QuizPage>this.quizArtistPage).winModal.close.addEventListener('click', () => { // to DELETE
@@ -266,7 +339,7 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      history.back(); 
+      location.href = '#'
     });
   }
 
@@ -306,6 +379,17 @@ export class Controller {
 
   shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
+  }
+
+  getNumberRound(number: number) {
+    if (number > 120) {
+      number = number - 120;
+    }    
+    return Math.floor((number - 1) / 10);
+  }
+
+  getNumberQuestion(number: number) {
+    return ((number % 10) - 1);
   }
 
   setSoundsVolume() {

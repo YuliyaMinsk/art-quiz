@@ -1,17 +1,17 @@
 import { BaseComponent } from '../../abstract/basecomponent';
-import { ModalType, PicturesType } from '../../abstract/types';
+import { ModalType, PicturesType, ResultQuiz } from '../../abstract/types';
 import { BigButton } from '../buttons/bigbutton';
 
 export class Modal extends BaseComponent {
   imageModal: HTMLElement;
   namePictureModal: HTMLElement;
   authorModal: HTMLElement;  
+  score: HTMLElement;
   readonly nextButton: BigButton;
   readonly homeButton: BigButton;
   readonly categoryButton: BigButton;
   readonly close: HTMLElement;
-
-
+  
   constructor(classes: string[] = [], id: ModalType) {
     super('div', ['modal', ...classes]);
 
@@ -20,7 +20,7 @@ export class Modal extends BaseComponent {
 
     this.close = document.createElement('span');
     this.close.classList.add('close');
-    // this.close.classList.add('hide-block');
+    this.close.classList.add('hide-block');
     this.close.textContent = '×';
 
     const div = document.createElement('div');
@@ -39,8 +39,8 @@ export class Modal extends BaseComponent {
     this.authorModal = document.createElement('p');
     this.authorModal.classList.add('modal-author');
 
-    const score = document.createElement('p');
-    score.classList.add('modal-score');
+    this.score = document.createElement('p');
+    this.score.classList.add('modal-score');
 
     const divButtons = document.createElement('div');
     divButtons.classList.add('modal-buttons');
@@ -52,7 +52,7 @@ export class Modal extends BaseComponent {
     if (id === 'modal-win') {
       titleModal.textContent = 'Это правильный ответ!';
       this.imageModal.classList.add('modal-win-or-lose');
-      score.classList.add('hide-block');
+      this.score.classList.add('hide-block');
       this.homeButton.component.classList.add('hide-block');
       this.categoryButton.component.classList.add('hide-block');
     }
@@ -60,7 +60,7 @@ export class Modal extends BaseComponent {
     if (id === 'modal-lose') {
       titleModal.textContent = 'Это неправильный ответ';
       this.imageModal.classList.add('modal-win-or-lose');
-      score.classList.add('hide-block');
+      this.score.classList.add('hide-block');
       this.homeButton.component.classList.add('hide-block');
       this.categoryButton.component.classList.add('hide-block');
     }
@@ -83,7 +83,7 @@ export class Modal extends BaseComponent {
       this.imageModal,
       this.namePictureModal,
       this.authorModal,
-      score,
+      this.score,
       divButtons,
     );
 
@@ -100,8 +100,12 @@ export class Modal extends BaseComponent {
     this.authorModal.textContent = `${question.author}, ${question.year}`
   }
 
-  fillModalEndTour(question: PicturesType) {
-    
+  fillModalEndTour(results: string[]) {
+    let win = 0;
+    for (let i = 0; i < results.length; i++) {
+      if (results[i] === '1') win++;
+    }
+    this.score.textContent = `${win} / 10`;
   }
 
 }
