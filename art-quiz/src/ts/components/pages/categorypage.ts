@@ -22,7 +22,7 @@ export class CategoryPage extends Page {
   addComponents(picturesCategoryData: PicturesType[]) {    
     this.roundButtons.forEach((button, index) => {
       button.roundCategoryNumber = picturesCategoryData[index].imageNum;
-      button.roundButton.style.backgroundImage = `url(../assets/pictures/img/${button.roundCategoryNumber}.jpg)`;
+      button.roundButton.style.backgroundImage = `url(https://rolling-scopes-school.github.io/yuliyaminsk-JSFE2021Q3/art-qiz/assets/pictures/img/${button.roundCategoryNumber}.jpg)`;
       button.roundButton.setAttribute('id', picturesCategoryData[index].imageNum);
       button.roundText.textContent = (index + 1) + ' раунд';
       if (button.isCategoryCompleted) {

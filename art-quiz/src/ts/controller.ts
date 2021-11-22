@@ -96,29 +96,19 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      console.log('1', window.location, window.location.href); // to DELETE
-      console.log('2',window.location.href); // to DELETE
-      console.log('3',window.location.pathname + window.location.hash); // to DELETE
-      window.location.href = '/yuliyaminsk-JSFE2021Q3/art-quiz/#artists'
+      location.href = '#artists'
     });
     (<WelcomePage>this.welcomePage).picturesButton.component.addEventListener('click', () => {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      console.log('1', window.location, window.location.href); // to DELETE
-      console.log('2',window.location.href); // to DELETE
-      console.log('3',window.location.pathname + window.location.hash); // to DELETE
       location.href = '#pictures';
-      //window.location.href = '/#pictures'
     });
     (<WelcomePage>this.welcomePage).settingsButton.component.addEventListener('click', () => {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      console.log('1', window.location, window.location.href); // to DELETE
-      console.log('2',window.location.href); // to DELETE
-      console.log('3',window.location.pathname + window.location.hash); // to DELETE
-      //window.location.href = '/#settings'
+      location.href = '#settings'
     });
   }
 
@@ -202,7 +192,7 @@ export class Controller {
         Sounds.soundClick.play();
       }
       this.loadDataQuizArtist(Number((<Element>event.target).id));
-      window.location.href = '/#artistsquiz'
+      location.href = '#artistsquiz'
     });
   }
 
