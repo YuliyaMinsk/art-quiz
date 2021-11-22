@@ -26,18 +26,20 @@ export class Controller {
     this.settings = new SettingsQuiz();
     this.welcomePage = new WelcomePage();
     this.settingsPage = new SettingsPage();
-    this.initSettingsValues(); 
-    this.initSettingsButtons();
+    this.initSettingsButtons(); 
+    this.initSettingsValues();
     this.categoryArtistPage = new CategoryPage('Artists', 1);
     this.initCategoryArtistButtons();
     this.categoryPicturePage = new CategoryPage('Pictures', 121);
     this.initCategoryPictureButtons();
     this.quizArtistPage = new QuizPage('Artists');
+    this.initQuizArtistButtons();
     this.quizPicturePage = new QuizPage('Pictures');
+    this.setSoundsVolume();
   }
   
   start() {
-    this.settings.print(); // to DELETE
+    // this.settings.print(); // to DELETE
     this.router.createRouteMap();
     this.initRouter();
 
@@ -62,6 +64,7 @@ export class Controller {
         case 'Settings': 
           this.settingsPage.showPage(this.rootElement); 
           (<SettingsPage>this.settingsPage).addComponents();   
+          this.initSettingsValues();
           console.log('show Settings page'); 
           break;
         case 'CategoryArtist': 
@@ -79,7 +82,6 @@ export class Controller {
         case 'QuizArtist':           
           this.quizArtistPage.showPage(this.rootElement); 
           (<QuizPage>this.quizArtistPage).addComponents(); 
-          console.log(this.quizArtistPage); 
           console.log('show Quiz Artist page'); 
           break;
         // case 'QuizPicture': this.quizPage.showPage(this.rootElement); break;
@@ -92,24 +94,74 @@ export class Controller {
   initWelcomeButtons() {
     (<WelcomePage>this.welcomePage).artistsButton.component.addEventListener('click', () => {   
       if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
         Sounds.soundClick.play();
       }
       window.location.href = '/#artists'
     });
     (<WelcomePage>this.welcomePage).picturesButton.component.addEventListener('click', () => {
       if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
         Sounds.soundClick.play();
       }
       window.location.href = '/#pictures'
     });
     (<WelcomePage>this.welcomePage).settingsButton.component.addEventListener('click', () => {
       if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
         Sounds.soundClick.play();
       }
       window.location.href = '/#settings'
+    });
+  }
+
+  initSettingsButtons() {
+    (<SettingsPage>this.settingsPage).backMenu.component.addEventListener('click', () => { 
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }  
+      history.back(); 
+    });
+    (<SettingsPage>this.settingsPage).volume.rangeElement.addEventListener('change', () => {
+      (<SettingsPage>this.settingsPage).volume.changeRange();      
+    });
+    (<SettingsPage>this.settingsPage).toggle.toggleElement.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }      
+    });
+    (<SettingsPage>this.settingsPage).counter.minusButton.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      (<SettingsPage>this.settingsPage).counter.counterElement.stepDown();  
+    });
+    (<SettingsPage>this.settingsPage).counter.plusButton.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      (<SettingsPage>this.settingsPage).counter.counterElement.stepUp();    
+    });
+    (<SettingsPage>this.settingsPage).saveButton.component.addEventListener('click', () => {   
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      
+      this.settings.volume = Number((<SettingsPage>this.settingsPage).volume.rangeElement.value);
+      if (this.settings.volume === 0) {
+        this.settings.isSound = false;
+      } else {
+        this.settings.isSound = true;
+      }
+      this.settings.gameForTime = (<SettingsPage>this.settingsPage).toggle.toggleElement.checked;
+      this.settings.timer = Number((<SettingsPage>this.settingsPage).counter.counterElement.value);      
+      this.settings.saveToLocalStorage();
+      this.setSoundsVolume();
+    });
+    (<SettingsPage>this.settingsPage).defaultButton.component.addEventListener('click', () => { 
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      this.settings.setToDefault();
+      this.initSettingsValues();
+      this.setSoundsVolume();
     });
   }
 
@@ -122,67 +174,6 @@ export class Controller {
       (<SettingsPage>this.settingsPage).toggle.toggleElement.checked = false;
     }
     (<SettingsPage>this.settingsPage).counter.counterElement.value = String(this.settings.timer);
-    this.settings.print('initSettingsValues: '); // to DELETE
-  }
-
-  initSettingsButtons() {
-    (<SettingsPage>this.settingsPage).counter.minusButton.removeEventListener('click', () => {}, false);
-    (<SettingsPage>this.settingsPage).backMenu.component.addEventListener('click', () => { 
-      if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
-        Sounds.soundClick.play();
-      }   
-      window.location.href = '/#'
-    });
-    (<SettingsPage>this.settingsPage).volume.rangeElement.addEventListener('change', () => {
-      (<SettingsPage>this.settingsPage).volume.changeRange();      
-    });
-    (<SettingsPage>this.settingsPage).toggle.toggleElement.addEventListener('click', () => {
-      if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
-        Sounds.soundClick.play();
-      }      
-    });
-    (<SettingsPage>this.settingsPage).counter.minusButton.addEventListener('click', () => {
-      if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
-        Sounds.soundClick.play();
-      }
-      (<SettingsPage>this.settingsPage).counter.counterElement.stepDown();  
-    });
-    (<SettingsPage>this.settingsPage).counter.plusButton.addEventListener('click', () => {
-      if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
-        Sounds.soundClick.play();
-      }
-      (<SettingsPage>this.settingsPage).counter.counterElement.stepUp();    
-    });
-    (<SettingsPage>this.settingsPage).saveButton.component.addEventListener('click', () => {   
-      if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
-        Sounds.soundClick.play();
-      }
-      
-      this.settings.volume = Number((<SettingsPage>this.settingsPage).volume.rangeElement.value);
-      if (this.settings.volume === 0) {
-        this.settings.isSound = false;
-      } else {
-        this.settings.isSound = true;
-      }
-      this.settings.gameForTime = (<SettingsPage>this.settingsPage).toggle.toggleElement.checked;
-      this.settings.timer = Number((<SettingsPage>this.settingsPage).counter.counterElement.value);
-      this.settings.saveToLocalStorage();
-      this.settings.print('saveButton: '); // to DELETE
-    });
-    (<SettingsPage>this.settingsPage).defaultButton.component.addEventListener('click', () => { 
-      if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
-        Sounds.soundClick.play();
-      }
-      this.settings.setToDefault();
-      this.initSettingsValues();
-      this.settings.print('defaultButton: '); // to DELETE
-    });
   }
 
 
@@ -190,17 +181,14 @@ export class Controller {
 
   initCategoryArtistButtons() {
     (<CategoryPage>this.categoryArtistPage).backMenu.component.addEventListener('click', () => {
-      console.log('бебек');
       if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
         Sounds.soundClick.play();
       }      
-      window.location.href = '/#'
+      history.back(); 
     });
     (<CategoryPage>this.categoryArtistPage).main.component.addEventListener('click', (event) => {
       if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
       if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
         Sounds.soundClick.play();
       }
       this.loadDataQuizArtist(Number((<Element>event.target).id));
@@ -223,7 +211,52 @@ export class Controller {
 
 
   initQuizArtistButtons() {
-    
+    (<QuizPage>this.quizArtistPage).backMenu.component.addEventListener('click', () => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      history.back(); 
+    });
+    (<QuizPage>this.quizArtistPage).quizElement?.component.addEventListener('click', (event) => {
+      if ((this.settings.isSound) && (this.settings.volume)) {
+        Sounds.soundClick.play();
+      }
+      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
+      
+      if ((<Element>event.target).textContent == (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz?.author) {
+        (<Element>event.target).classList.add('button-win');
+        (<QuizPage>this.quizArtistPage).winModal.component.style.display = 'block';
+        const dataQuiz = (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz;
+        if (dataQuiz) {
+          (<QuizPage>this.quizArtistPage).winModal.fillModalGame(dataQuiz);
+        }
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundWin.play();
+        }
+      } else {
+        (<Element>event.target).classList.add('button-lose');
+        (<QuizPage>this.quizArtistPage).loseModal.component.style.display = 'block';
+        const dataQuiz = (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz;
+        if (dataQuiz) {
+          (<QuizPage>this.quizArtistPage).loseModal.fillModalGame(dataQuiz);
+        }
+        if ((this.settings.isSound) && (this.settings.volume)) {
+          Sounds.soundLose.play();
+        }
+      }
+    });
+    (<QuizPage>this.quizArtistPage).winModal.nextButton.component.addEventListener('click', () => {
+      // save progress
+      // reload quiz page
+    });
+
+
+    (<QuizPage>this.quizArtistPage).winModal.close.addEventListener('click', () => { // to DELETE
+      (<QuizPage>this.quizArtistPage).winModal.component.style.display = "none";
+    });
+    (<QuizPage>this.quizArtistPage).loseModal.close.addEventListener('click', () => { // to DELETE
+      (<QuizPage>this.quizArtistPage).loseModal.component.style.display = "none";
+    });
   }
 
 ////////////// PICTURES
@@ -231,10 +264,9 @@ export class Controller {
   initCategoryPictureButtons() {
     (<CategoryPage>this.categoryPicturePage).backMenu.component.addEventListener('click', () => {
       if ((this.settings.isSound) && (this.settings.volume)) {
-        Sounds.soundClick.volume = this.settings.volume / 100;
         Sounds.soundClick.play();
       }
-      window.location.href = '/#'
+      history.back(); 
     });
   }
 
@@ -274,5 +306,14 @@ export class Controller {
 
   shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
+  }
+
+  setSoundsVolume() {
+    if (this.settings.volume) {
+      Sounds.soundClick.volume = this.settings.volume / 100;
+      Sounds.soundWin.volume = this.settings.volume / 100;
+      Sounds.soundLose.volume = this.settings.volume / 100;
+      Sounds.soundEndRound.volume = this.settings.volume / 100;
+    }
   }
 }
