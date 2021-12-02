@@ -1,27 +1,37 @@
 import { BaseComponent } from "../../abstract/basecomponent";
 import { PageComponent } from "../../abstract/pagecomponent";
-import { Anchor } from "../elements/anchor";
 
 export class Footer extends PageComponent {
-  readonly container: BaseComponent;
-  readonly year: BaseComponent;
-  readonly rsUrl: Anchor;
-  readonly githubUrl: Anchor;
+  readonly container: HTMLElement;
+  readonly year: HTMLElement;
+  readonly rsUrl: HTMLAnchorElement;
+  readonly githubUrl: HTMLAnchorElement;
 
   constructor() {
     super('footer', ['footer']);
 
-    this.container = new BaseComponent('div', ['_container', 'footer-container']);
-    this.component.appendChild(this.container.component);
+    this.container = document.createElement('div')
+    this.container.classList.add('_container');
+    this.container.classList.add('footer-container');
     
-    this.rsUrl = new Anchor([],'https://rs.school/index.html', 'The Rolling Scopes School');
-    this.container.component.appendChild(this.rsUrl.component);
+    this.rsUrl = document.createElement('a');
+    this.rsUrl.setAttribute('href', 'https://rs.school/index.html');
+    this.rsUrl.textContent = 'The Rolling Scopes School';
 
-    this.year = new BaseComponent('span');
-    this.year.component.textContent = '2021';
-    this.container.component.appendChild(this.year.component);
 
-    this.githubUrl = new Anchor([], 'https://github.com/YuliyaMinsk', 'Yuliya Niaverava');
-    this.container.component.appendChild(this.githubUrl.component);
+    this.year = document.createElement('span')
+    this.year.textContent = '2021';
+
+    this.githubUrl = document.createElement('a');
+    this.githubUrl.setAttribute('href', 'https://github.com/YuliyaMinsk');
+    this.githubUrl.textContent = 'Yuliya Niaverava';
+
+    this.component.append(this.container);
+
+    this.container.append(
+      this.rsUrl,
+      this.year,
+      this.githubUrl
+      );
   }  
 }
