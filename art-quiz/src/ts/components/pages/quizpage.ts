@@ -44,7 +44,9 @@ export class QuizPage extends Page {
       this.quizElement?.timerQuiz.classList.add('hide-block');
       this.quizElement?.timerText.classList.add('hide-block');
     } else {
-      if (this.quizElement) this.quizElement.timerText.textContent = String(settings.timer);
+      if (this.quizElement) {
+        this.quizElement.timerText.textContent = String(settings.timer);
+      }
     }
   }
 

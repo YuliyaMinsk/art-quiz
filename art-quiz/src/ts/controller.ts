@@ -47,7 +47,6 @@ export class Controller {
   }
   
   start() {
-    // this.settings.print(); // to DELETE
     this.rootElement.addEventListener('onunload', () => {   
       this.results.saveToLocalStorage();
     });
@@ -64,7 +63,6 @@ export class Controller {
 
    initRouter() {
     window.addEventListener('hashchange', () => {
-      // console.log('hash: ' + window.location.hash);
       let currentPage = this.router.getPage('/' + window.location.hash);
 
       switch (currentPage[0].page) {
@@ -247,7 +245,9 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
+      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) {
+        return;
+      }
       
       if ((<Element>event.target).textContent == (<QuizPage>this.quizArtistPage).quizElement?.dataQuiz?.author) {
           (<Element>event.target).classList.add('button-win');
@@ -288,7 +288,6 @@ export class Controller {
         if ((this.settings.isSound) && (this.settings.volume)) {
           Sounds.soundClick.play();
         }
-        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
         this.loadDataQuizArtist((this.round * 10) + (this.question + 1));
         (<QuizPage>this.quizArtistPage).addComponents(); 
       }
@@ -310,7 +309,6 @@ export class Controller {
         if ((this.settings.isSound) && (this.settings.volume)) {
           Sounds.soundClick.play();
         }
-        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
         this.loadDataQuizArtist((this.round * 10) + (this.question + 1));
         (<QuizPage>this.quizArtistPage).addComponents(); 
       }
@@ -330,14 +328,6 @@ export class Controller {
       (<QuizPage>this.quizArtistPage).endModal.component.style.display = 'none'; 
       location.href = '#artists';
     });  
-
-
-    (<QuizPage>this.quizArtistPage).winModal.close.addEventListener('click', () => { // to DELETE
-      (<QuizPage>this.quizArtistPage).winModal.component.style.display = "none";
-    });
-    (<QuizPage>this.quizArtistPage).loseModal.close.addEventListener('click', () => { // to DELETE
-      (<QuizPage>this.quizArtistPage).loseModal.component.style.display = "none";
-    });
   }
 
 ////////////// PICTURES
@@ -372,7 +362,6 @@ export class Controller {
 
   loadDataQuizPicture(quizNumber: number) {
     const answers = this.generateFourRandomPictures(picturesData[quizNumber].imageNum);
-    // console.log('answers', answers); // To DELETE
     (<QuizPage>this.quizPicturePage).loadQuiz(picturesData[quizNumber], answers, this.results.resultPictureQuiz[this.round], this.settings);
   }
 
@@ -394,7 +383,9 @@ export class Controller {
       if ((this.settings.isSound) && (this.settings.volume)) {
         Sounds.soundClick.play();
       }
-      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) return;
+      if ((event.target) && ((<Element>event.target).tagName != 'BUTTON')) {
+        return;
+      }
       
        if ((<Element>event.target).id == (<QuizPage>this.quizPicturePage).quizElement?.dataQuiz?.imageNum) {
           (<Element>event.target).classList.add('button-win');
@@ -435,7 +426,6 @@ export class Controller {
         if ((this.settings.isSound) && (this.settings.volume)) {
           Sounds.soundClick.play();
         }
-        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
         this.loadDataQuizPicture(120 + (this.round * 10) + (this.question + 1));
         (<QuizPage>this.quizPicturePage).addComponents(); 
       }
@@ -457,7 +447,6 @@ export class Controller {
         if ((this.settings.isSound) && (this.settings.volume)) {
           Sounds.soundClick.play();
         }
-        // console.log(this.round, this.question, (this.round * 10) + (this.question + 1));
         this.loadDataQuizPicture(120 + (this.round * 10) + (this.question + 1));
         (<QuizPage>this.quizPicturePage).addComponents(); 
       }

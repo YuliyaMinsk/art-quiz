@@ -1,4 +1,5 @@
 import { BaseComponent } from '../../abstract/basecomponent';
+import { Constants } from '../../abstract/constants';
 import { ModalType, PicturesType, ResultQuiz } from '../../abstract/types';
 import { BigButton } from '../buttons/bigbutton';
 
@@ -45,12 +46,12 @@ export class Modal extends BaseComponent {
     const divButtons = document.createElement('div');
     divButtons.classList.add('modal-buttons');
 
-    this.nextButton = new BigButton('Продолжить', ['modal-big-button', id]);
-    this.homeButton = new BigButton('На главную', ['modal-big-button', id]);
-    this.categoryButton = new BigButton('Еще один раунд!', ['modal-big-button', id]);
+    this.nextButton = new BigButton(Constants.MODAL_BUTTON_NEXT, ['modal-big-button', id]);
+    this.homeButton = new BigButton(Constants.MODAL_BUTTON_HOME, ['modal-big-button', id]);
+    this.categoryButton = new BigButton(Constants.MODAL_BUTTON_CATEGORY, ['modal-big-button', id]);
 
     if (id === 'modal-win') {
-      titleModal.textContent = 'Это правильный ответ!';
+      titleModal.textContent = Constants.MODAL_WIN;
       this.imageModal.classList.add('modal-win-or-lose');
       this.score.classList.add('hide-block');
       this.homeButton.component.classList.add('hide-block');
@@ -58,7 +59,7 @@ export class Modal extends BaseComponent {
     }
 
     if (id === 'modal-lose') {
-      titleModal.textContent = 'Это неправильный ответ';
+      titleModal.textContent = Constants.MODAL_LOSE;
       this.imageModal.classList.add('modal-win-or-lose');
       this.score.classList.add('hide-block');
       this.homeButton.component.classList.add('hide-block');
@@ -66,7 +67,7 @@ export class Modal extends BaseComponent {
     }
 
     if (id === 'modal-end-tour') {
-      titleModal.textContent = 'Поздравляем! Вы завершили раунд!';
+      titleModal.textContent = Constants.MODAL_END_TOUR;
       this.imageModal.classList.add('modal-end-tour');
       this.namePictureModal.classList.add('hide-block');
       this.authorModal.classList.add('hide-block');
@@ -103,7 +104,9 @@ export class Modal extends BaseComponent {
   fillModalEndTour(results: string[]) {
     let win = 0;
     for (let i = 0; i < results.length; i++) {
-      if (results[i] === '1') win++;
+      if (results[i] === '1') {
+        win++;
+      }
     }
     this.score.textContent = `${win} / 10`;
   }

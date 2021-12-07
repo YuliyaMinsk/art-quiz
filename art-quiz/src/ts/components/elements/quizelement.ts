@@ -1,4 +1,5 @@
 import { BaseComponent } from '../../abstract/basecomponent';
+import { Constants } from '../../abstract/constants';
 import { TypeQuiz, PicturesType, ResultQuiz } from '../../abstract/types';
 
 export class QuizElement extends BaseComponent {
@@ -10,10 +11,8 @@ export class QuizElement extends BaseComponent {
   readonly indicatorQuiz: HTMLElement[];
   dataQuiz?: PicturesType;
 
-  constructor(classes: string[] = [], typeQuiz: TypeQuiz) { // , question: PicturesType, answers: string[]
+  constructor(classes: string[] = [], typeQuiz: TypeQuiz) { 
     super('div', ['quiz-element', ...classes]);
-
-    // this.numberQuiz = '0' // question.imageNum;
 
     this.pictureQuiz = document.createElement('div');
     this.pictureQuiz.classList.add('picture-quiz');
@@ -30,10 +29,10 @@ export class QuizElement extends BaseComponent {
     this.questionQuiz.classList.add('question-quiz');
     switch (typeQuiz) {
       case 'Artists':
-        this.questionQuiz.textContent = 'Кто автор данной картины?';       
+        this.questionQuiz.textContent = Constants.QUIZ_QUESTION_ARTISTS;       
         break;
       case 'Pictures':
-        this.questionQuiz.textContent = `Какую картину написал ... ?`;     
+        this.questionQuiz.textContent = Constants.QUIZ_QUESTION_PICTURES;     
         break;
     }
 
@@ -79,25 +78,8 @@ export class QuizElement extends BaseComponent {
       this.timerText
     );
 
-    divAnswer.append(         // change to array... this.roundButtons.forEach(button => this.main.component.append(button)); 
-      this.answersQuiz[0],
-      this.answersQuiz[1],
-      this.answersQuiz[2],
-      this.answersQuiz[3],
-    );
-
-    divIndicator.append(      // change to array... this.roundButtons.forEach(button => this.main.component.append(button));
-      this.indicatorQuiz[0],
-      this.indicatorQuiz[1],
-      this.indicatorQuiz[2],
-      this.indicatorQuiz[3],
-      this.indicatorQuiz[4],
-      this.indicatorQuiz[5],
-      this.indicatorQuiz[6],
-      this.indicatorQuiz[7],
-      this.indicatorQuiz[8],
-      this.indicatorQuiz[9],
-    );
+    this.answersQuiz.forEach(button => divAnswer.append(button));
+    this.indicatorQuiz.forEach(button => divIndicator.append(button));
   }
 
   setQuizButtons(typeQuiz: TypeQuiz, question: PicturesType, answers: string[], results: string[]) {    
@@ -134,10 +116,10 @@ export class QuizElement extends BaseComponent {
     });
     switch (typeQuiz) {
       case 'Artists':
-        this.questionQuiz.textContent = 'Кто автор данной картины?';       
+        this.questionQuiz.textContent = Constants.QUIZ_QUESTION_ARTISTS;       
         break;
       case 'Pictures':
-        this.questionQuiz.textContent = `Какую картину написал ${this.dataQuiz.author}?`;     
+        this.questionQuiz.textContent = Constants.QUIZ_QUESTION_PICTURES + ` ${this.dataQuiz.author}?`;     
         break;
     }
   }

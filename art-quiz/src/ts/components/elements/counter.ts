@@ -18,13 +18,16 @@ export class Counter extends BaseComponent {
 
     this.counterElement = document.createElement('input');
     this.counterElement.classList.add('counter-input');
-    this.counterElement.setAttribute('type', 'number');
-    this.counterElement.setAttribute('min', '0');
-    this.counterElement.setAttribute('max', '30');
-    this.counterElement.setAttribute('step', '5');
-    this.counterElement.setAttribute('value', '0');
     this.counterElement.readOnly = true;
-    this.counterElement.setAttribute('id', id);
+    const propertiesCounterElement = [
+      ['type', 'number'], 
+      ['min', '0'],
+      ['max', '30'],
+      ['step', '5'],
+      ['value', '0'],
+      ['id', id]
+    ];
+    propertiesCounterElement.forEach(([property, value]) => this.counterElement.setAttribute(property, value));
 
     this.minusButton = document.createElement('button');
     this.minusButton.classList.add('counter-button');

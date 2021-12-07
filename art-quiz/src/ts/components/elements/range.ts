@@ -14,11 +14,14 @@ export class Range extends BaseComponent {
     this.labelElement.textContent = textDescription;
 
     this.rangeElement = document.createElement('input');
-    this.rangeElement.setAttribute('type', 'range');
-    this.rangeElement.setAttribute('min', String(numberFrom));
-    this.rangeElement.setAttribute('max', String(numberTo));
-    this.rangeElement.setAttribute('value', String((numberFrom + numberTo) / 4));
-    this.rangeElement.setAttribute('step', '1');
+    const propertiesRangeElement = [
+      ['type', 'range'],
+      ['min', String(numberFrom)],
+      ['max', String(numberTo)],
+      ['value', String((numberFrom + numberTo) / 4)],
+      ['step', '1'],
+    ];
+    propertiesRangeElement.forEach(([property, value]) => this.rangeElement.setAttribute(property, value));
 
     if (type === 'setting') {
       const div = new BaseComponent('div', ['icons-volume']);

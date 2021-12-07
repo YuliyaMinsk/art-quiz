@@ -10,7 +10,6 @@ import { Counter } from '../elements/counter';
 export class SettingsPage extends Page {
   readonly logo: Image;
   readonly backMenu: NavigateButton;
-  // readonly closeMenu: NavigateButton;
   readonly volume: Range;
   readonly toggle: Toggle;
   readonly counter: Counter;
@@ -22,15 +21,14 @@ export class SettingsPage extends Page {
 
     this.logo = new Image(['logo', 'logo-navigate']);
     this.backMenu = new NavigateButton(Constants.NAV_BUTTON_SETTINGS, ['icon-back']);
-    // this.closeMenu = new NavigateButton('', ['icon-close']);
 
-    this.volume = new Range(['range'], 'setting', 0, 100, 'Громкость звука');
-    this.toggle = new Toggle(['toggle'], 'Игра на время', 'time-game');
-    this.counter = new Counter(['counter'], 'Время ответа', 'time-answer');
+    this.volume = new Range(['range'], 'setting', 0, 100, Constants.SETTING_VOLUME_TEXT);
+    this.toggle = new Toggle(['toggle'], Constants.SETTING_TOGGLE_TEXT, 'time-game');
+    this.counter = new Counter(['counter'], Constants.SETTING_COUNTER_TEXT, 'time-answer');
 
-    this.defaultButton = new BigButton('Откатить настройки');
-    this.saveButton = new BigButton('Применить настройки');
-  }
+    this.defaultButton = new BigButton(Constants.SETTING_BUTTON_DEFAULT);
+    this.saveButton = new BigButton(Constants.SETTING_BUTTON_SAVE);
+  } 
 
   addComponents() {
     this.removeComponents();    
